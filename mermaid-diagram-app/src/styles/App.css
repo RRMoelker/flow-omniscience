@@ -100,41 +100,9 @@
   flex-wrap: wrap;
 }
 
-/* Shared input panel styles */
-.input-panel {
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
-}
 
-.input-panel h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  font-weight: 600;
-}
 
-.input-panel-row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
 
-.constructive-section {
-  background: #f8f9fa;
-}
-
-.constructive-section h3 {
-  color: #495057;
-}
-
-.constructive-row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
 
 /* Common input group styles */
 .input-group {
@@ -220,12 +188,7 @@
   background: #1565c0;
 }
 
-.constructive-input-group {
-  /* Inherits from .input-group */
-}
-
-
-
+/* Section-specific background colors */
 .source-section {
   background: #e3f2fd;
   border-color: #bbdefb;
@@ -235,9 +198,14 @@
   color: #1976d2;
 }
 
+.constructive-section {
+  background: #f8f9fa;
+}
 
+.constructive-section h3 {
+  color: #495057;
+}
 
-/* Filter panel specific styles */
 .filter-section {
   background: #fff3cd;
   border-color: #ffeaa7;
@@ -247,14 +215,7 @@
   color: #856404;
 }
 
-.filter-input-group {
-  /* Inherits from .input-group */
-}
 
-.add-filter-btn {
-  /* Inherits from .btn and .btn-warning */
-  min-width: 120px;
-}
 
 .active-filters {
   margin-top: 20px;
@@ -482,10 +443,6 @@
   font-size: 14px;
 }
 
-.active-operations {
-  margin-top: 15px;
-}
-
 .operations-list {
   display: flex;
   flex-wrap: wrap;
@@ -684,21 +641,7 @@
   margin-bottom: 15px;
 }
 
-/* Apply shared input panel styles to sections */
-.source-section,
-.constructive-section,
-.filter-section {
-  padding: 15px;
-  border: 1px solid #dee2e6;
-}
 
-.source-section h3,
-.constructive-section h3,
-.filter-section h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  font-weight: 600;
-}
 
 .source-row,
 .constructive-row,
