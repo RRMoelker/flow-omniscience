@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 interface CameraControllerProps {
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -22,7 +22,7 @@ const CameraController: React.FC<CameraControllerProps> = ({
   const lastMousePosRef = useRef({ x: 0, y: 0 });
 
   // Direct DOM manipulation - NO React state changes
-  const applyTransform = (zoom: number, panX: number, panY: number) => {
+  const applyTransform = useCallback((zoom: number, panX: number, panY: number) => {
     if (containerRef.current) {
       const svg = containerRef.current.querySelector('svg');
       if (svg) {
@@ -30,19 +30,19 @@ const CameraController: React.FC<CameraControllerProps> = ({
         svg.style.transformOrigin = 'center';
       }
     }
-  };
+  }, [containerRef]);
 
-  const zoomIn = () => {
+  const zoomIn = useCallback(() => {
     cameraRef.current.zoom = Math.min(cameraRef.current.zoom * 1.2, 3);
     applyTransform(cameraRef.current.zoom, cameraRef.current.panX, cameraRef.current.panY);
     updateZoomDisplay();
-  };
+  }, [applyTransform]);
 
-  const zoomOut = () => {
+  const zoomOut = useCallback(() => {
     cameraRef.current.zoom = Math.max(cameraRef.current.zoom / 1.2, 0.3);
     applyTransform(cameraRef.current.zoom, cameraRef.current.panX, cameraRef.current.panY);
     updateZoomDisplay();
-  };
+  }, [applyTransform]);
 
   const resetCamera = () => {
     cameraRef.current = {
@@ -108,7 +108,7 @@ const CameraController: React.FC<CameraControllerProps> = ({
       container.addEventListener('wheel', handleWheel, { passive: false });
       return () => container.removeEventListener('wheel', handleWheel);
     }
-  }, [zoomIn, zoomOut]);
+  }, [zoomIn, zoomOut, containerRef]);
 
   // Pan functionality with direct DOM manipulation only
   useEffect(() => {
@@ -167,7 +167,7 @@ const CameraController: React.FC<CameraControllerProps> = ({
       document.removeEventListener('mouseup', handleMouseUp);
       container.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [containerRef]);
+  }, [containerRef, applyTransform]);
 
   return (
     <div className="zoom-controls">
@@ -175,7 +175,7 @@ const CameraController: React.FC<CameraControllerProps> = ({
       <span className="zoom-level">{Math.round(cameraRef.current.zoom * 100)}%</span>
       <button onClick={zoomOut} className="zoom-btn">-</button>
       <button onClick={resetCamera} className="zoom-btn">Reset</button>
-      <button onClick={viewAll} className="zoom-btn view-all-btn">View All</button>
+      <button disabled onClick={viewAll} className="zoom-btn view-all-btn">View All</button>
     </div>
   );
 };
