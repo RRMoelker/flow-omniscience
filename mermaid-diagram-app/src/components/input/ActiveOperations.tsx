@@ -27,17 +27,17 @@ const ActiveOperations: React.FC<ActiveOperationsProps> = ({
           <div className="operations-container">
             <div className="operations-list">
               {operations.map(operation => (
-                <div key={operation.id} className="operation-tag">
-                  <span className="operation-label">{operation.label}</span>
-                  <button 
-                    onClick={() => onRemoveOperation(operation.id)}
-                    className="remove-operation-btn"
-                    title="Remove operation"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+                  <div key={operation.id} className="operation-tag">
+                    <span className="operation-label">{operation.label}</span>
+                    <button 
+                      onClick={() => onRemoveOperation(operation.id)}
+                      className="remove-operation-btn"
+                      title="Remove operation"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
             </div>
             <button 
               onClick={onClearAll}

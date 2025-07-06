@@ -14,14 +14,11 @@ export const applyOperations = (originalGraph: Graph, operations: OperationMeta[
     return { nodes: [], edges: [] }; // Return empty graph when no operations
   }
   
-  // Sort operations by priority (lower numbers first)
-  const sortedOperations = [...operations].sort((a, b) => a.priority - b.priority);
-  
   // Start with empty graphs
   let baseGraph: Graph = { nodes: [], edges: [] };
   let resultGraph: Graph = { nodes: [], edges: [] };
   
-  for (const operationMeta of sortedOperations) {
+  for (const operationMeta of operations) {
     const [newBaseGraph, newResultGraph, wasApplied] = operationMeta.operation(baseGraph, resultGraph);
     baseGraph = newBaseGraph;
     resultGraph = newResultGraph;

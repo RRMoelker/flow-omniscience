@@ -1,4 +1,4 @@
-import { Graph } from '../types';
+import { Graph, OperationMeta } from '../types';
 
 // Data transformation pipeline with 20 nodes, multiple entry/exit points
 export const exampleGraphData: Graph = {
@@ -81,4 +81,22 @@ export const exampleGraphData: Graph = {
     { from: 'Q', to: 'T' },
     { from: 'R', to: 'T' }
   ]
-}; 
+};
+
+// Example source operation: sets the example graph as the base graph
+const exampleSource = (): OperationMeta => {
+  const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
+    // Source operations only change the base graph, result graph stays the same
+    return [exampleGraphData, resultGraph, true];
+  };
+
+  return {
+    id: 'example-source',
+    label: 'Example Source',
+    priority: 0, // Source priority
+    type: 'source',
+    operation
+  };
+};
+
+export default exampleSource; 

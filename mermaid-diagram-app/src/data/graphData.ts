@@ -1,1 +1,0 @@
-export { exampleGraphData as sampleGraphData } from './operations/exampleSource'; 

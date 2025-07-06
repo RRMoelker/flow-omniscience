@@ -11,12 +11,13 @@ import {
   FilterOperations, 
   ActiveOperations 
 } from './components/input';
-import { sampleGraphData } from './data/graphData';
+
 import { OperationMeta, Node } from './data/types';
 import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createRemoteSource, applyOperations } from './data/operations/operationsManager';
+import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
-  const [graphData] = useState(sampleGraphData);
+  const [graphData] = useState(createEmptyGraph());
   const [operations, setOperations] = useState<OperationMeta[]>([]);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const diagramRef = useRef<HTMLDivElement>(null);
@@ -78,9 +79,12 @@ function App() {
       // Remove existing operation
       setOperations(prev => prev.filter(op => op.id !== 'all-constructive'));
     } else {
-      // Add new operation
+      // Add new operation after sources but before transforms
       const newOperation = createAllConstructive();
-      setOperations(prev => [...prev, newOperation]);
+      setOperations(prev => {
+        const sourceCount = prev.filter(op => op.priority === 0).length;
+        return [...prev.slice(0, sourceCount), newOperation, ...prev.slice(sourceCount)];
+      });
     }
   };
 
@@ -90,9 +94,12 @@ function App() {
       // Remove existing operation
       setOperations(prev => prev.filter(op => op.id !== `add-group-constructive-${groupId}`));
     } else {
-      // Add new operation
+      // Add new operation after sources but before transforms
       const newOperation = createAddGroupConstructive(groupId);
-      setOperations(prev => [...prev, newOperation]);
+      setOperations(prev => {
+        const sourceCount = prev.filter(op => op.priority === 0).length;
+        return [...prev.slice(0, sourceCount), newOperation, ...prev.slice(sourceCount)];
+      });
     }
   };
 
@@ -102,9 +109,9 @@ function App() {
       // Remove existing operation
       setOperations(prev => prev.filter(op => op.id !== 'example-source'));
     } else {
-      // Add new operation
+      // Add new operation at the beginning (priority 0)
       const newOperation = createExampleSource();
-      setOperations(prev => [...prev, newOperation]);
+      setOperations(prev => [newOperation, ...prev]);
     }
   };
 
@@ -114,9 +121,9 @@ function App() {
       // Remove existing operation
       setOperations(prev => prev.filter(op => op.id !== 'remote-source'));
     } else {
-      // Add new operation
+      // Add new operation at the beginning (priority 0)
       const newOperation = createRemoteSource();
-      setOperations(prev => [...prev, newOperation]);
+      setOperations(prev => [newOperation, ...prev]);
     }
   };
 
@@ -177,7 +184,6 @@ function App() {
               <DiagramRenderer
                 ref={diagramRef}
                 graphData={processedGraph}
-                operations={operations}
                 onSetStartNode={handleSetStartNode}
                 onSetEndNode={handleSetEndNode}
                 onSetPassThroughNode={handleSetPassThroughNode}

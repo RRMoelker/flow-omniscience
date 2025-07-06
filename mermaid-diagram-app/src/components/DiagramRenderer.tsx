@@ -7,7 +7,6 @@ import { addHoverHighlighting } from './display/hoverHighlighter';
 
 interface DiagramRendererProps {
   graphData: Graph;
-  operations: OperationMeta[];
   onSetStartNode: (nodeId: string) => void;
   onSetEndNode: (nodeId: string) => void;
   onSetPassThroughNode: (nodeId: string) => void;
@@ -18,7 +17,6 @@ interface DiagramRendererProps {
 const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
   ({ 
     graphData, 
-    operations,
     onSetStartNode, 
     onSetEndNode, 
     onSetPassThroughNode,
@@ -143,7 +141,7 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
       };
 
       renderDiagram();
-    }, [graphData, operations, onSetStartNode, onSetEndNode, onSetPassThroughNode, onGroupCollapseNode, onNodeSelect]);
+    }, [graphData, onSetStartNode, onSetEndNode, onSetPassThroughNode, onGroupCollapseNode, onNodeSelect]);
 
     return (
       <div 
