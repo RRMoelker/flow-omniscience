@@ -131,15 +131,7 @@ function App() {
     setOperations(prev => prev.filter(operation => operation.id !== operationId));
   };
 
-  const handleTransformChange = (transform: string) => {
-    if (diagramRef.current) {
-      const svg = diagramRef.current.querySelector('svg');
-      if (svg) {
-        svg.style.transform = transform;
-        svg.style.transformOrigin = 'center';
-      }
-    }
-  };
+
 
   return (
     <div className="App">
@@ -179,7 +171,6 @@ function App() {
             <div className="mermaid-diagram-wrapper">
               <CameraController 
                 containerRef={diagramRef}
-                onTransformChange={handleTransformChange}
               />
               <DiagramRenderer
                 ref={diagramRef}
