@@ -4,7 +4,6 @@ import { Graph, OperationMeta, Node } from '../data/types';
 import { convertToMermaid } from '../data/mermaidConverter';
 import { addSvgButtonsToNodes } from './display/svgButtonRenderer';
 import { addHoverHighlighting } from './display/hoverHighlighter';
-import { addNodeSelection } from './display/nodeSelector';
 
 interface DiagramRendererProps {
   graphData: Graph;
@@ -27,6 +26,56 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
     onNodeSelect
   }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Simple node selection function
+    const addSimpleNodeSelection = (container: HTMLDivElement, graphData: Graph, onNodeSelect: (node: Node | null) => void) => {
+      // Find all node elements
+      const nodeElements = container.querySelectorAll('.node');
+      
+      nodeElements.forEach((nodeElement) => {
+        // Get the node ID from the element's ID or parent's ID
+        let nodeId = nodeElement.id;
+        if (!nodeId && nodeElement.parentElement) {
+          nodeId = nodeElement.parentElement.id;
+        }
+        
+        // Extract node ID from flowchart ID (e.g., "flowchart-A" -> "A")
+        const nodeIdMatch = nodeId?.match(/flowchart-([A-Z])/);
+        const extractedNodeId = nodeIdMatch ? nodeIdMatch[1] : nodeId;
+        
+        if (!extractedNodeId) return;
+        
+        // Find the corresponding node data
+        const node = graphData.nodes.find(n => n.id === extractedNodeId);
+        if (!node) return;
+        
+        // Add click event listener
+        nodeElement.addEventListener('click', (event) => {
+          event.stopPropagation();
+          
+          // Clear previous selection
+          container.querySelectorAll('.selected-node').forEach(el => {
+            el.classList.remove('selected-node');
+          });
+          
+          // Add selection class to clicked node
+          nodeElement.classList.add('selected-node');
+          
+          // Call the callback with the selected node
+          onNodeSelect(node);
+        });
+      });
+      
+      // Add click listener to container background to clear selection
+      container.addEventListener('click', (event) => {
+        if (event.target === container) {
+          container.querySelectorAll('.selected-node').forEach(el => {
+            el.classList.remove('selected-node');
+          });
+          onNodeSelect(null);
+        }
+      });
+    };
 
     useEffect(() => {
       const renderDiagram = async () => {
@@ -82,8 +131,8 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
             // Add hover highlighting
             addHoverHighlighting(svgElement, graphData);
             
-            // Add node selection functionality
-            addNodeSelection(svgElement, graphData, onNodeSelect);
+            // Add simple node selection
+            addSimpleNodeSelection(containerRef.current, graphData, onNodeSelect);
           }
         } catch (error) {
           console.error('Error rendering diagram:', error);
