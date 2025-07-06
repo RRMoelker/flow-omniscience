@@ -1,15 +1,24 @@
 import React, { useState, useRef } from 'react';
 import './styles/App.css';
 import DiagramRenderer from './components/DiagramRenderer';
-import FilterInputs from './components/FilterInputs';
 import CameraController from './components/CameraController';
+import NodeInfoPanel from './components/NodeInfoPanel';
+import { 
+  InputWindow, 
+  InputSection, 
+  SourceOperations, 
+  ConstructiveOperations, 
+  FilterOperations, 
+  ActiveOperations 
+} from './components/input';
 import { sampleGraphData } from './data/graphData';
-import { OperationMeta } from './data/types';
+import { OperationMeta, Node } from './data/types';
 import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createRemoteSource, applyOperations } from './data/operations/operationsManager';
 
 function App() {
   const [graphData] = useState(sampleGraphData);
   const [operations, setOperations] = useState<OperationMeta[]>([]);
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const diagramRef = useRef<HTMLDivElement>(null);
 
   // Apply operations to get the processed graph
@@ -133,29 +142,50 @@ function App() {
       
       <div className="app-container">
         <div className="content-wrapper">
-          <FilterInputs 
+          <InputWindow>
+            <InputSection title="Source Operations" className="source-section">
+              <SourceOperations 
+                onAddExampleSource={handleAddExampleSource}
+                onAddRemoteSource={handleAddRemoteSource}
+              />
+            </InputSection>
+            
+            <InputSection title="Constructive Operations" className="constructive-section">
+              <ConstructiveOperations 
+                onAddAllConstructive={handleAddAllConstructive}
+                onAddGroupConstructive={handleAddGroupConstructive}
+              />
+            </InputSection>
+            
+            <InputSection title="Filter Operations" className="filter-section">
+              <FilterOperations />
+            </InputSection>
+          </InputWindow>
+          
+          <ActiveOperations 
             operations={operations}
             onRemoveOperation={removeOperation}
-            onAddAllConstructive={handleAddAllConstructive}
-            onAddGroupConstructive={handleAddGroupConstructive}
-            onAddExampleSource={handleAddExampleSource}
-            onAddRemoteSource={handleAddRemoteSource}
+            onClearAll={() => setOperations([])}
           />
           
-          <div className="mermaid-diagram-wrapper">
-            <CameraController 
-              containerRef={diagramRef}
-              onTransformChange={handleTransformChange}
-            />
-            <DiagramRenderer
-              ref={diagramRef}
-              graphData={processedGraph}
-              operations={operations}
-              onSetStartNode={handleSetStartNode}
-              onSetEndNode={handleSetEndNode}
-              onSetPassThroughNode={handleSetPassThroughNode}
-              onGroupCollapseNode={handleGroupCollapseNode}
-            />
+          <div className="graph-container">
+            <div className="mermaid-diagram-wrapper">
+              <CameraController 
+                containerRef={diagramRef}
+                onTransformChange={handleTransformChange}
+              />
+              <DiagramRenderer
+                ref={diagramRef}
+                graphData={processedGraph}
+                operations={operations}
+                onSetStartNode={handleSetStartNode}
+                onSetEndNode={handleSetEndNode}
+                onSetPassThroughNode={handleSetPassThroughNode}
+                onGroupCollapseNode={handleGroupCollapseNode}
+                onNodeSelect={setSelectedNode}
+              />
+            </div>
+            <NodeInfoPanel selectedNode={selectedNode} />
           </div>
         </div>
       </div>

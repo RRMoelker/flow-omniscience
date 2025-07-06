@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, forwardRef } from 'react';
 import mermaid from 'mermaid';
-import { Graph, OperationMeta } from '../data/types';
+import { Graph, OperationMeta, Node } from '../data/types';
 import { convertToMermaid } from '../data/mermaidConverter';
 import { addSvgButtonsToNodes } from './display/svgButtonRenderer';
 import { addHoverHighlighting } from './display/hoverHighlighter';
+import { addNodeSelection } from './display/nodeSelector';
 
 interface DiagramRendererProps {
   graphData: Graph;
@@ -12,6 +13,7 @@ interface DiagramRendererProps {
   onSetEndNode: (nodeId: string) => void;
   onSetPassThroughNode: (nodeId: string) => void;
   onGroupCollapseNode: (groupId: string) => void;
+  onNodeSelect: (node: Node | null) => void;
 }
 
 const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
@@ -21,7 +23,8 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
     onSetStartNode, 
     onSetEndNode, 
     onSetPassThroughNode,
-    onGroupCollapseNode 
+    onGroupCollapseNode,
+    onNodeSelect
   }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -78,6 +81,9 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
             
             // Add hover highlighting
             addHoverHighlighting(svgElement, graphData);
+            
+            // Add node selection functionality
+            addNodeSelection(svgElement, graphData, onNodeSelect);
           }
         } catch (error) {
           console.error('Error rendering diagram:', error);
@@ -88,7 +94,7 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
       };
 
       renderDiagram();
-    }, [graphData, operations, onSetStartNode, onSetEndNode, onSetPassThroughNode, onGroupCollapseNode]);
+    }, [graphData, operations, onSetStartNode, onSetEndNode, onSetPassThroughNode, onGroupCollapseNode, onNodeSelect]);
 
     return (
       <div 

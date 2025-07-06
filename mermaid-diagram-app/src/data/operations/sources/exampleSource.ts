@@ -1,11 +1,11 @@
 import { Graph, OperationMeta } from '../../types';
-import { sampleGraphData } from '../../graphData';
+import { exampleGraphData } from '../exampleSource';
 
 // Example source operation: sets the example graph as the base graph
 const exampleSource = (): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Source operations only change the base graph, result graph stays the same
-    return [sampleGraphData, resultGraph, true];
+    return [exampleGraphData, resultGraph, true];
   };
 
   return {

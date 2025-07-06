@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { OperationMeta } from '../data/types';
+import InputWindow, { InputSection } from './InputWindow';
 
 interface FilterInputsProps {
   operations: OperationMeta[];
@@ -22,11 +23,8 @@ const FilterInputs: React.FC<FilterInputsProps> = ({
   const [endNode, setEndNode] = useState('');
   const [passThroughNode, setPassThroughNode] = useState('');
   const [groupNode, setGroupNode] = useState('');
-  const [showProjects, setShowProjects] = useState(true);
-  const [showSystem, setShowSystem] = useState(true);
 
   const clearAllOperations = () => {
-    // Clear the input fields
     setStartNode('');
     setEndNode('');
     setPassThroughNode('');
@@ -34,34 +32,95 @@ const FilterInputs: React.FC<FilterInputsProps> = ({
   };
 
   return (
-    <div className="filter-inputs">
-      <div className="show-section">
-        <h3>Show:</h3>
-        <div className="show-options">
-          <div className="show-option">
-            <input 
-              type="checkbox" 
-              id="showProjects" 
-              disabled={true}
-              checked={showProjects}
-              onChange={(e) => setShowProjects(e.target.checked)}
-            />
-            <label htmlFor="showProjects">Show Projects</label>
+    <InputWindow>
+      <InputSection title="Active Operations" className="operations-section">
+        <div className="operations-header">
+          <button 
+            onClick={clearAllOperations}
+            className="clear-all-btn"
+            disabled={operations.length === 0}
+          >
+            Clear All
+          </button>
+        </div>
+
+        {operations.length === 0 ? (
+          <div className="no-operations">
+            <p>No operations applied</p>
           </div>
-          <div className="show-option">
+        ) : (
+          <div className="active-operations">
+            <div className="operations-list">
+              {operations.map(operation => (
+                <div key={operation.id} className="operation-tag">
+                  <span className="operation-label">{operation.label}</span>
+                  <button 
+                    onClick={() => onRemoveOperation(operation.id)}
+                    className="remove-operation-btn"
+                    title="Remove operation"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </InputSection>
+
+      <InputSection title="Source Operations" className="source-section">
+        <div className="source-row">
+          <button 
+            onClick={onAddExampleSource}
+            className="add-source-btn"
+          >
+            📊 Example Source
+          </button>
+          
+          <button 
+            onClick={onAddRemoteSource}
+            className="add-source-btn"
+          >
+            🌐 Remote Source
+          </button>
+        </div>
+      </InputSection>
+
+      <InputSection title="Constructive Operations" className="constructive-section">
+        <div className="constructive-row">
+          <button 
+            onClick={onAddAllConstructive}
+            className="add-constructive-btn"
+          >
+            🌐 Add All Nodes
+          </button>
+          
+          <div className="constructive-input-group">
+            <label htmlFor="groupNode" className="sr-only">Group:</label>
             <input 
-              type="checkbox" 
-              id="showSystem" 
-              disabled={true}
-              checked={showSystem}
-              onChange={(e) => setShowSystem(e.target.checked)}
+              type="text" 
+              id="groupNode" 
+              value={groupNode}
+              onChange={(e) => setGroupNode(e.target.value)}
+              placeholder="Enter group name" 
             />
-            <label htmlFor="showSystem">Show System</label>
+            <button 
+              onClick={() => {
+                if (groupNode.trim()) {
+                  onAddGroupConstructive(groupNode.trim());
+                  setGroupNode('');
+                }
+              }}
+              disabled={!groupNode.trim()}
+              className="add-constructive-btn"
+            >
+              📦 Add Group
+            </button>
           </div>
         </div>
-      </div>
-      
-      <div className="filter-header">
+      </InputSection>
+
+      <InputSection title="Filter Operations" className="filter-section">
         <div className="filter-row">
           <div className="filter-input-group">
             <label htmlFor="startNode" className="sr-only">Start Node:</label>
@@ -129,103 +188,8 @@ const FilterInputs: React.FC<FilterInputsProps> = ({
             </button>
           </div>
         </div>
-
-        {/* Source Operations */}
-        <div className="source-section">
-          <h3>Source Operations:</h3>
-          <div className="source-row">
-            <button 
-              onClick={onAddExampleSource}
-              className="add-source-btn"
-            >
-              📊 Example Source
-            </button>
-            
-            <button 
-              onClick={onAddRemoteSource}
-              className="add-source-btn"
-            >
-              🌐 Remote Source
-            </button>
-          </div>
-        </div>
-
-        {/* Constructive Operations */}
-        <div className="constructive-section">
-          <h3>Constructive Operations:</h3>
-          <div className="constructive-row">
-            <button 
-              onClick={onAddAllConstructive}
-              className="add-constructive-btn"
-            >
-              🌐 Add All Nodes
-            </button>
-            
-            <div className="constructive-input-group">
-              <label htmlFor="groupNode" className="sr-only">Group:</label>
-              <input 
-                type="text" 
-                id="groupNode" 
-                value={groupNode}
-                onChange={(e) => setGroupNode(e.target.value)}
-                placeholder="Enter group name" 
-              />
-              <button 
-                onClick={() => {
-                  if (groupNode.trim()) {
-                    onAddGroupConstructive(groupNode.trim());
-                    setGroupNode('');
-                  }
-                }}
-                disabled={!groupNode.trim()}
-                className="add-constructive-btn"
-              >
-                📦 Add Group
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <button 
-          onClick={clearAllOperations}
-          className="clear-filters-btn"
-          disabled={operations.length === 0}
-        >
-          Clear
-        </button>
-      </div>
-
-      <div className="active-operations">
-        <h3>Active Operations:</h3>
-        <div className="operations-list">
-          {operations.length === 0 ? (
-            <div className="no-operations">
-              <p>No operations applied</p>
-            </div>
-          ) : (
-            <>
-              {/* Show operations sorted by priority */}
-              {operations
-                .sort((a, b) => a.priority - b.priority)
-                .map(operation => (
-                  <div key={operation.id} className="operation-tag">
-                    <span className="operation-icon">
-                      {operation.priority === 100 ? '🛠️' : '🔍'}
-                    </span>
-                    <span className="operation-label">{operation.label}</span>
-                    <button 
-                      onClick={() => onRemoveOperation(operation.id)}
-                      className="remove-operation-btn"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+      </InputSection>
+    </InputWindow>
   );
 };
 
