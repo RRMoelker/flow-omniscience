@@ -6,7 +6,7 @@ import groupCollapseTransformation from './transforms/groupCollapseTransformatio
 import allConstructive from './constructs/allConstructive';
 import addGroupConstructive from './constructs/addGroupConstructive';
 import exampleSource from './sources/exampleSource';
-import remoteSource from './sources/remoteSource';
+import externalSource from './sources/externalSource';
 
 // Apply operations to a graph in priority order
 export const applyOperations = (originalGraph: Graph, operations: OperationMeta[]): Graph => {
@@ -50,8 +50,8 @@ export const createExampleSource = (): OperationMeta => {
   return exampleSource();
 };
 
-export const createRemoteSource = (): OperationMeta => {
-  return remoteSource();
+export const createExternalSource = (): OperationMeta => {
+  return externalSource();
 };
 
 // Create constructive operations

@@ -13,7 +13,7 @@ import {
 } from './components/input';
 
 import { OperationMeta } from './data/types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createRemoteSource, applyOperations } from './data/operations/operationsManager';
+import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createExternalSource, applyOperations } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
@@ -114,14 +114,14 @@ function App() {
     }
   };
 
-  const handleAddRemoteSource = () => {
-    const existingOperation = operations.find(op => op.id === 'remote-source');
+  const handleAddExternalSource = () => {
+    const existingOperation = operations.find(op => op.id === 'external-source');
     if (existingOperation) {
       // Remove existing operation
-      setOperations(prev => prev.filter(op => op.id !== 'remote-source'));
+      setOperations(prev => prev.filter(op => op.id !== 'external-source'));
     } else {
       // Add new operation at the beginning (priority 0)
-      const newOperation = createRemoteSource();
+      const newOperation = createExternalSource();
       setOperations(prev => [newOperation, ...prev]);
     }
   };
@@ -144,7 +144,7 @@ function App() {
             <InputSection title="Source Operations" className="source-section">
               <SourceOperations 
                 onAddExampleSource={handleAddExampleSource}
-                onAddRemoteSource={handleAddRemoteSource}
+                onAddExternalSource={handleAddExternalSource}
               />
             </InputSection>
             

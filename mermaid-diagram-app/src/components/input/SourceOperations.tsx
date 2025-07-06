@@ -2,12 +2,12 @@ import React from 'react';
 
 interface SourceOperationsProps {
   onAddExampleSource: () => void;
-  onAddRemoteSource: () => void;
+  onAddExternalSource: () => void;
 }
 
 const SourceOperations: React.FC<SourceOperationsProps> = ({
   onAddExampleSource,
-  onAddRemoteSource
+  onAddExternalSource
 }) => {
   return (
     <div className="source-row">
@@ -22,7 +22,7 @@ const SourceOperations: React.FC<SourceOperationsProps> = ({
       
       <div className="input-group">
         <button 
-          onClick={onAddRemoteSource}
+          onClick={onAddExternalSource}
           className="btn btn-info"
         >
           🌐 Add External
