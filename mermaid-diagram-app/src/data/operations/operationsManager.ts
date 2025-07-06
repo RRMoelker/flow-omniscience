@@ -19,7 +19,7 @@ export const applyOperations = (originalGraph: Graph, operations: OperationMeta[
   let resultGraph: Graph = { nodes: [], edges: [] };
   
   for (const operationMeta of operations) {
-    const [newBaseGraph, newResultGraph, wasApplied] = operationMeta.operation(baseGraph, resultGraph);
+    const [newBaseGraph, newResultGraph] = operationMeta.operation(baseGraph, resultGraph);
     baseGraph = newBaseGraph;
     resultGraph = newResultGraph;
   }

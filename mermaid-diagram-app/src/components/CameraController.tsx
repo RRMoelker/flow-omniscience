@@ -108,7 +108,7 @@ const CameraController: React.FC<CameraControllerProps> = ({
       container.addEventListener('wheel', handleWheel, { passive: false });
       return () => container.removeEventListener('wheel', handleWheel);
     }
-  }, []);
+  }, [zoomIn, zoomOut]);
 
   // Pan functionality with direct DOM manipulation only
   useEffect(() => {
@@ -167,7 +167,7 @@ const CameraController: React.FC<CameraControllerProps> = ({
       document.removeEventListener('mouseup', handleMouseUp);
       container.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [containerRef]);
 
   return (
     <div className="zoom-controls">

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, forwardRef } from 'react';
 import mermaid from 'mermaid';
-import { Graph, OperationMeta } from '../data/types';
+import { Graph } from '../data/types';
 import { convertToMermaid } from '../data/mermaidConverter';
 import { addSvgButtonsToNodes } from './display/svgButtonRenderer';
 import { addHoverHighlighting } from './display/hoverHighlighter';

@@ -14,7 +14,7 @@ const ActiveOperations: React.FC<ActiveOperationsProps> = ({
 }) => {
   return (
     <div className="active-operations-window">
-      <div className="active-operations-header">
+      <div className="active-operations-header sr-only">
         <h3>Active Operations</h3>
       </div>
 
