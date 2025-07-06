@@ -11,7 +11,7 @@ const FilterOperations: React.FC<FilterOperationsProps> = () => {
 
   return (
     <div className="filter-row">
-      <div className="filter-input-group">
+      <div className="input-group">
         <label htmlFor="startNode" className="sr-only">Start Node:</label>
         <input 
           type="text" 
@@ -27,13 +27,13 @@ const FilterOperations: React.FC<FilterOperationsProps> = () => {
             }
           }}
           disabled={!startNode.trim()}
-          className="add-filter-btn"
+          className="btn btn-warning"
         >
           ▶️ Add Start
         </button>
       </div>
 
-      <div className="filter-input-group">
+      <div className="input-group">
         <label htmlFor="endNode" className="sr-only">End Node:</label>
         <input 
           type="text" 
@@ -49,13 +49,13 @@ const FilterOperations: React.FC<FilterOperationsProps> = () => {
             }
           }}
           disabled={!endNode.trim()}
-          className="add-filter-btn"
+          className="btn btn-warning"
         >
           ⏹️ Add End
         </button>
       </div>
 
-      <div className="filter-input-group">
+      <div className="input-group">
         <label htmlFor="passThroughNode" className="sr-only">Pass-Through Node:</label>
         <input 
           type="text" 
@@ -71,7 +71,7 @@ const FilterOperations: React.FC<FilterOperationsProps> = () => {
             }
           }}
           disabled={!passThroughNode.trim()}
-          className="add-filter-btn"
+          className="btn btn-warning"
         >
           🔀 Add Pass-Through
         </button>

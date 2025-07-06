@@ -136,15 +136,32 @@
   align-items: flex-end;
 }
 
-.constructive-input-group {
+/* Common input group styles */
+.input-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
+  min-width: 150px;
+  flex: 1;
 }
 
-.add-constructive-btn {
-  background: #28a745;
-  color: white;
+.input-group label {
+  font-weight: 500;
+  white-space: nowrap;
+  font-size: 14px;
+  color: #495057;
+}
+
+.input-group input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Common button styles */
+.btn {
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
@@ -152,16 +169,62 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 8px;
 }
 
-.add-constructive-btn:hover:not(:disabled) {
+.btn:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+.btn:disabled {
+  background: #6c757d !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Button variants */
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.btn-success {
+  background: #28a745;
+  color: white;
+}
+
+.btn-success:hover:not(:disabled) {
   background: #218838;
 }
 
-.add-constructive-btn:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
+.btn-warning {
+  background: #ffc107;
+  color: #212529;
 }
+
+.btn-warning:hover:not(:disabled) {
+  background: #e0a800;
+}
+
+.btn-info {
+  background: #1976d2;
+  color: white;
+}
+
+.btn-info:hover:not(:disabled) {
+  background: #1565c0;
+}
+
+.constructive-input-group {
+  /* Inherits from .input-group */
+}
+
+
 
 .source-section {
   background: #e3f2fd;
@@ -172,26 +235,7 @@
   color: #1976d2;
 }
 
-.add-source-btn {
-  background: #1976d2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  white-space: nowrap;
-}
 
-.add-source-btn:hover:not(:disabled) {
-  background: #1565c0;
-}
-
-.add-source-btn:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
-}
 
 /* Filter panel specific styles */
 .filter-section {
@@ -204,51 +248,12 @@
 }
 
 .filter-input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 150px;
-  flex: 1;
-}
-
-.filter-input-group label {
-  font-weight: 500;
-  white-space: nowrap;
-  font-size: 14px;
-  color: #495057;
-}
-
-.filter-input-group input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
+  /* Inherits from .input-group */
 }
 
 .add-filter-btn {
-  padding: 8px 12px;
-  background: #ffc107;
-  color: #212529;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  white-space: nowrap;
-  transition: background-color 0.2s ease;
+  /* Inherits from .btn and .btn-warning */
   min-width: 120px;
-  align-self: flex-start;
-  margin-top: 8px;
-}
-
-.add-filter-btn:hover:not(:disabled) {
-  background: #e0a800;
-}
-
-.add-filter-btn:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
-  opacity: 0.6;
 }
 
 .active-filters {
@@ -696,13 +701,7 @@
 }
 
 .source-row,
-.constructive-row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
-
+.constructive-row,
 .filter-row {
   display: flex;
   gap: 15px;

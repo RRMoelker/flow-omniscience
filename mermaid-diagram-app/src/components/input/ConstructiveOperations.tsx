@@ -15,12 +15,12 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({
     <div className="constructive-row">
       <button 
         onClick={onAddAllConstructive}
-        className="add-constructive-btn"
+        className="btn btn-success"
       >
         🌐 Add All Nodes
       </button>
       
-      <div className="constructive-input-group">
+      <div className="input-group">
         <label htmlFor="groupNode" className="sr-only">Group:</label>
         <input 
           type="text" 
@@ -37,7 +37,7 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({
             }
           }}
           disabled={!groupNode.trim()}
-          className="add-constructive-btn"
+          className="btn btn-success"
         >
           📦 Add Group
         </button>

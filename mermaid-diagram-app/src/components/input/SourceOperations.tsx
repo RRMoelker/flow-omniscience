@@ -11,19 +11,23 @@ const SourceOperations: React.FC<SourceOperationsProps> = ({
 }) => {
   return (
     <div className="source-row">
-      <button 
-        onClick={onAddExampleSource}
-        className="add-source-btn"
-      >
-        📊 Example Source
-      </button>
+      <div className="input-group">
+        <button 
+          onClick={onAddExampleSource}
+          className="btn btn-info"
+        >
+          📊 Add Example
+        </button>
+      </div>
       
-      <button 
-        onClick={onAddRemoteSource}
-        className="add-source-btn"
-      >
-        🌐 Remote Source
-      </button>
+      <div className="input-group">
+        <button 
+          onClick={onAddRemoteSource}
+          className="btn btn-info"
+        >
+          🌐 Add External
+        </button>
+      </div>
     </div>
   );
 };
