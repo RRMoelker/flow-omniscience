@@ -12,14 +12,13 @@ import {
   ActiveOperations 
 } from './components/input';
 
-import { OperationMeta, Node } from './data/types';
+import { OperationMeta } from './data/types';
 import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createRemoteSource, applyOperations } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
   const [graphData] = useState(createEmptyGraph());
   const [operations, setOperations] = useState<OperationMeta[]>([]);
-  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const diagramRef = useRef<HTMLDivElement>(null);
 
   // Apply operations to get the processed graph
@@ -179,10 +178,9 @@ function App() {
                 onSetEndNode={handleSetEndNode}
                 onSetPassThroughNode={handleSetPassThroughNode}
                 onGroupCollapseNode={handleGroupCollapseNode}
-                onNodeSelect={setSelectedNode}
               />
             </div>
-            <NodeInfoPanel selectedNode={selectedNode} />
+            <NodeInfoPanel selectedNode={null} />
           </div>
         </div>
       </div>

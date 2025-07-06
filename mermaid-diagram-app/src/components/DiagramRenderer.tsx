@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, forwardRef } from 'react';
 import mermaid from 'mermaid';
-import { Graph, OperationMeta, Node } from '../data/types';
+import { Graph, OperationMeta } from '../data/types';
 import { convertToMermaid } from '../data/mermaidConverter';
 import { addSvgButtonsToNodes } from './display/svgButtonRenderer';
 import { addHoverHighlighting } from './display/hoverHighlighter';
-import { nodeSelectionManager } from './display/nodeSelectionManager';
 
 interface DiagramRendererProps {
   graphData: Graph;
@@ -12,7 +11,6 @@ interface DiagramRendererProps {
   onSetEndNode: (nodeId: string) => void;
   onSetPassThroughNode: (nodeId: string) => void;
   onGroupCollapseNode: (groupId: string) => void;
-  onNodeSelect: (node: Node | null) => void;
 }
 
 const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
@@ -21,8 +19,7 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
     onSetStartNode, 
     onSetEndNode, 
     onSetPassThroughNode,
-    onGroupCollapseNode,
-    onNodeSelect
+    onGroupCollapseNode
   }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -79,9 +76,6 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
             
             // Add hover highlighting
             addHoverHighlighting(svgElement, graphData);
-            
-            // Initialize node selection manager
-            nodeSelectionManager.initialize(containerRef.current, graphData, onNodeSelect);
           }
         } catch (error) {
           console.error('Error rendering diagram:', error);
@@ -93,20 +87,6 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
 
       renderDiagram();
     }, [graphData, onSetStartNode, onSetEndNode, onSetPassThroughNode, onGroupCollapseNode]);
-
-    // Separate effect for node selection updates
-    useEffect(() => {
-      if (containerRef.current) {
-        nodeSelectionManager.updateGraphData(graphData);
-      }
-    }, [graphData]);
-
-    // Cleanup on unmount
-    useEffect(() => {
-      return () => {
-        nodeSelectionManager.destroy();
-      };
-    }, []);
 
     return (
       <div 
