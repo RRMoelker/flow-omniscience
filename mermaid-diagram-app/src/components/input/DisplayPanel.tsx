@@ -1,11 +1,10 @@
 import React from 'react';
+import { GROUP_TYPES, GroupType } from '../../data/types';
 
 interface DisplayPanelProps {
-  groupType: string;
-  onGroupTypeChange: (type: string) => void;
+  groupType: GroupType;
+  onGroupTypeChange: (type: GroupType) => void;
 }
-
-const GROUP_TYPES = ['database', 'project', 'system'];
 
 const DisplayPanel: React.FC<DisplayPanelProps> = ({ groupType, onGroupTypeChange }) => {
   return (
@@ -14,7 +13,7 @@ const DisplayPanel: React.FC<DisplayPanelProps> = ({ groupType, onGroupTypeChang
       <select
         id="group-type-select"
         value={groupType}
-        onChange={e => onGroupTypeChange(e.target.value)}
+        onChange={e => onGroupTypeChange(e.target.value as GroupType)}
         style={{ padding: '4px 8px', fontSize: 15 }}
       >
         {GROUP_TYPES.map(type => (

@@ -25,6 +25,10 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
       <h3 className="detail-header">Node Info</h3>
       <div className="node-details">
         <div className="detail-row">
+          <span className="detail-label">ID:</span>
+          <span className="detail-value">{selectedNode.id}</span>
+        </div>
+        <div className="detail-row">
           <span className="detail-label">Name:</span>
           <span className="detail-value">{selectedNode.name}</span>
         </div>

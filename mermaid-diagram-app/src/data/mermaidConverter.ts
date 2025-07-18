@@ -1,7 +1,7 @@
-import { Graph, Node, Edge, Group } from './types';
+import { Graph, Node, Edge, Group, GroupType } from './types';
 
 // Convert graph data to Mermaid syntax
-export const convertToMermaid = (graphData: Graph, groupType: string = 'database'): string => {
+export const convertToMermaid = (graphData: Graph, groupType: GroupType = 'database'): string => {
   let mermaid = 'graph LR\n';
 
   // Add class definitions for styling

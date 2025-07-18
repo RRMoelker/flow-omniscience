@@ -12,7 +12,7 @@ import {
   DisplayPanel 
 } from './components/input';
 
-import { OperationMeta, Node as GraphNode } from './data/types';
+import { OperationMeta, Node as GraphNode, GroupType } from './data/types';
 import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
@@ -20,7 +20,7 @@ function App() {
   const [graphData] = useState(createEmptyGraph());
   const [operations, setOperations] = useState<OperationMeta[]>([]);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [groupType, setGroupType] = useState('database');
+  const [groupType, setGroupType] = useState<GroupType>('database');
   const diagramRef = useRef<HTMLDivElement>(null);
 
   // Apply operations to get the processed graph
