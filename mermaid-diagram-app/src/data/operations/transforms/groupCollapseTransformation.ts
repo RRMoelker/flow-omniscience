@@ -3,7 +3,7 @@ import { Graph, Node, Edge, OperationMeta } from '../../types';
 // Group collapse transformation operation: takes a groupId and returns an OperationMeta
 const groupCollapseTransformation = (groupId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
-    const nodesInGroup = resultGraph.nodes.filter(node => node.group === groupId);
+    const nodesInGroup = resultGraph.nodes.filter(node => node.groups && node.groups.includes(groupId));
     if (nodesInGroup.length === 0) return [baseGraph, resultGraph, false];
 
     // Create a new merged node
@@ -11,7 +11,7 @@ const groupCollapseTransformation = (groupId: string): OperationMeta => {
       id: `GROUP_${groupId}`,
       name: `${groupId} (${nodesInGroup.length} nodes)`,
       type: 'group',
-      group: groupId
+      groups: [groupId]
     };
 
     // Find all incoming edges to any node in the group
@@ -71,7 +71,8 @@ const groupCollapseTransformation = (groupId: string): OperationMeta => {
       edges: uniqueEdges
     };
     
-    return [baseGraph, newResultGraph, true];
+    // Add empty groups array to newResultGraph if missing
+    return [baseGraph, { ...newResultGraph, groups: resultGraph.groups || [] }, true];
   };
 
   return {

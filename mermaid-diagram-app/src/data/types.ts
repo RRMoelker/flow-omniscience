@@ -1,8 +1,13 @@
+export interface Group {
+  id: string;
+  type: 'database'; // For now, only 'database' is supported
+}
+
 export interface Node {
   id: string;
   name: string;
-  type: 'process' | 'data' | 'group';
-  group?: string; // Optional group assignment
+  type: 'process' | 'data' | 'group' | 'view' | 'database';
+  groups?: string[]; // Array of group ids
 }
 
 export interface Edge {
@@ -14,6 +19,7 @@ export interface Edge {
 export interface Graph {
   nodes: Node[];
   edges: Edge[];
+  groups: Group[];
 }
 
 // Operation is a function that transforms graphs and returns whether it was applied

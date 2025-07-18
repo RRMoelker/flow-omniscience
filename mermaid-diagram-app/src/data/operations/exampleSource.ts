@@ -2,41 +2,49 @@ import { Graph, OperationMeta } from '../types';
 
 // Data transformation pipeline with 20 nodes, multiple entry/exit points
 export const exampleGraphData: Graph = {
+  groups: [
+    { id: 'data_sources', type: 'database' },
+    { id: 'validation', type: 'database' },
+    { id: 'processing', type: 'database' },
+    { id: 'security', type: 'database' },
+    { id: 'analytics', type: 'database' }
+  ],
   nodes: [
     // Data Sources (group: data_sources)
-    { id: 'A', name: 'Raw User Data', type: 'data', group: 'data_sources' },
-    { id: 'B', name: 'Transaction Logs', type: 'data', group: 'data_sources' },
-    { id: 'C', name: 'External API Data', type: 'data', group: 'data_sources' },
+    { id: 'A', name: 'Raw User Data', type: 'data', groups: ['data_sources'] },
+    { id: 'B', name: 'Transaction Logs', type: 'data', groups: ['data_sources'] },
+    { id: 'C', name: 'External API Data', type: 'data', groups: ['data_sources'] },
     
     // Data Processing Operations - Validation (group: validation)
-    { id: 'D', name: 'Data Validation', type: 'process', group: 'validation' },
-    { id: 'M', name: 'Schema Validation', type: 'process', group: 'validation' },
-    { id: 'K', name: 'Outlier Detection', type: 'process', group: 'validation' },
+    { id: 'D', name: 'Data Validation', type: 'process', groups: ['validation'] },
+    { id: 'M', name: 'Schema Validation', type: 'process', groups: ['validation'] },
+    { id: 'K', name: 'Outlier Detection', type: 'process', groups: ['validation'] },
     
     // Data Processing Operations - Processing (group: processing)
-    { id: 'E', name: 'Data Cleaning', type: 'process', group: 'processing' },
-    { id: 'F', name: 'Feature Engineering', type: 'process', group: 'processing' },
-    { id: 'G', name: 'Data Aggregation', type: 'process', group: 'processing' },
-    { id: 'H', name: 'Enrich Data', type: 'process', group: 'processing' },
-    { id: 'I', name: 'Compute Feature Store', type: 'process', group: 'processing' },
-    { id: 'J', name: 'Data Normalization', type: 'process', group: 'processing' },
-    { id: 'L', name: 'Data Transformation', type: 'process', group: 'processing' },
-    { id: 'N', name: 'Data Deduplication', type: 'process', group: 'processing' },
-    { id: 'O', name: 'Data Partitioning', type: 'process', group: 'processing' },
+    { id: 'E', name: 'Data Cleaning', type: 'process', groups: ['processing'] },
+    { id: 'F', name: 'Feature Engineering', type: 'process', groups: ['processing'] },
+    { id: 'G', name: 'Data Aggregation', type: 'process', groups: ['processing'] },
+    { id: 'H', name: 'Enrich Data', type: 'process', groups: ['processing'] },
+    { id: 'I', name: 'Compute Feature Store', type: 'process', groups: ['processing'] },
+    { id: 'J', name: 'Data Normalization', type: 'process', groups: ['processing'] },
+    { id: 'L', name: 'Data Transformation', type: 'process', groups: ['processing'] },
+    { id: 'N', name: 'Data Deduplication', type: 'process', groups: ['processing'] },
+    { id: 'O', name: 'Data Partitioning', type: 'process', groups: ['processing'] },
     
     // Security Operations (group: security)
-    { id: 'P', name: 'Data Compression', type: 'process', group: 'security' },
-    { id: 'Q', name: 'Data Encryption', type: 'process', group: 'security' },
-    { id: 'R', name: 'Data Indexing', type: 'process', group: 'security' },
+    { id: 'P', name: 'Data Compression', type: 'process', groups: ['security'] },
+    { id: 'Q', name: 'Data Encryption', type: 'process', groups: ['security'] },
+    { id: 'R', name: 'Data Indexing', type: 'process', groups: ['security'] },
     
     // Analytics and Quality (group: analytics)
-    { id: 'S', name: 'Data Archiving', type: 'process', group: 'analytics' },
-    { id: 'T', name: 'Quality Check', type: 'process', group: 'analytics' },
+    { id: 'S', name: 'Data Archiving', type: 'process', groups: ['analytics'] },
+    { id: 'T', name: 'Quality Check', type: 'process', groups: ['analytics'] },
     
     // Processed Data Outputs (no group)
     { id: 'U', name: 'Processed Dataset', type: 'data' },
     { id: 'V', name: 'Feature Dataset', type: 'data' },
-    { id: 'W', name: 'Analytics Dataset', type: 'data' }
+    { id: 'W', name: 'Analytics Dataset', type: 'database' },
+    { id: 'X', name: 'Dashboard View', type: 'view' }
   ],
   edges: [
     // Data source flows
@@ -75,6 +83,7 @@ export const exampleGraphData: Graph = {
     { from: 'T', to: 'U' },
     { from: 'T', to: 'V' },
     { from: 'T', to: 'W' },
+    { from: 'W', to: 'X' },
     
     // Cross-process connections
     { from: 'L', to: 'M' },

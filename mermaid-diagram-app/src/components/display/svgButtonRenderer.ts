@@ -17,7 +17,7 @@ export const addSvgButtonsToNodes = (
     
     // Find the node data to check if it has a group
     const nodeData = graphData.nodes.find(node => node.id === nodeId);
-    const hasGroup = nodeData?.group;
+    const hasGroup = !!(nodeData?.groups && nodeData.groups.length > 0);
     
     // Create button group
     const buttonGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -152,7 +152,7 @@ export const addSvgButtonsToNodes = (
       
       groupCollapseButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        onGroupCollapseNode(hasGroup);
+        onGroupCollapseNode(hasGroup ? 'true' : 'false');
       });
       
       buttonGroup.appendChild(groupCollapseButton);

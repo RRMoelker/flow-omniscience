@@ -7,6 +7,7 @@ import { Graph } from '../types';
 export const createEmptyGraph = (): Graph => {
   return {
     nodes: [],
-    edges: []
+    edges: [],
+    groups: []
   };
 }; 

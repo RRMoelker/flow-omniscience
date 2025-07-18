@@ -33,7 +33,7 @@ const CameraController: React.FC<CameraControllerProps> = ({
   }, [containerRef]);
 
   const zoomIn = useCallback(() => {
-    cameraRef.current.zoom = Math.min(cameraRef.current.zoom * 1.2, 3);
+    cameraRef.current.zoom = Math.min(cameraRef.current.zoom * 1.2, 50);
     applyTransform(cameraRef.current.zoom, cameraRef.current.panX, cameraRef.current.panY);
     updateZoomDisplay();
   }, [applyTransform]);

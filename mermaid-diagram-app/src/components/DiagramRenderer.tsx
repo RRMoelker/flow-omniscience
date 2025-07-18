@@ -11,6 +11,7 @@ interface DiagramRendererProps {
   onSetEndNode: (nodeId: string) => void;
   onSetPassThroughNode: (nodeId: string) => void;
   onGroupCollapseNode: (groupId: string) => void;
+  onNodeSelect?: (nodeId: string) => void;
 }
 
 const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
@@ -19,13 +20,21 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
     onSetStartNode, 
     onSetEndNode, 
     onSetPassThroughNode,
-    onGroupCollapseNode
+    onGroupCollapseNode,
+    onNodeSelect
   }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       const renderDiagram = async () => {
         if (!containerRef.current) return;
+
+        // Save current transform if present
+        let prevTransform = '';
+        const prevSvg = containerRef.current.querySelector('svg');
+        if (prevSvg && prevSvg.style.transform) {
+          prevTransform = prevSvg.style.transform;
+        }
 
         // Clear previous content
         containerRef.current.innerHTML = '';
@@ -65,6 +74,11 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
           // Add SVG buttons to nodes
           const svgElement = containerRef.current.querySelector('svg');
           if (svgElement) {
+            // Restore previous transform if present
+            if (prevTransform) {
+              svgElement.style.transform = prevTransform;
+              svgElement.style.transformOrigin = 'center';
+            }
             addSvgButtonsToNodes(
               svgElement,
               onSetStartNode,
@@ -76,6 +90,20 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
             
             // Add hover highlighting
             addHoverHighlighting(svgElement, graphData);
+
+            // Add click event for node selection
+            if (typeof onNodeSelect === 'function') {
+              const nodeGroups = svgElement.querySelectorAll('g.node');
+              nodeGroups.forEach((nodeGroup) => {
+                nodeGroup.addEventListener('click', (e) => {
+                  // Prevent button clicks from triggering node select
+                  if ((e.target as Element).closest('.svg-button')) return;
+                  e.stopPropagation();
+                  const nodeId = nodeGroup.getAttribute('id')?.split('-')[1];
+                  if (nodeId) onNodeSelect(nodeId);
+                });
+              });
+            }
           }
         } catch (error) {
           console.error('Error rendering diagram:', error);

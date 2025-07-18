@@ -1,4 +1,5 @@
 import { Graph, OperationMeta } from '../types';
+import { createEmptyGraph } from '../graph/emptyGraph';
 import startFilter from './filters/startFilter';
 import endFilter from './filters/endFilter';
 import passThroughFilter from './filters/passThroughFilter';
@@ -11,12 +12,12 @@ import externalSource from './sources/externalSource';
 // Apply operations to a graph in priority order
 export const applyOperations = (originalGraph: Graph, operations: OperationMeta[]): Graph => {
   if (operations.length === 0) {
-    return { nodes: [], edges: [] }; // Return empty graph when no operations
+    return createEmptyGraph(); // Return empty graph when no operations
   }
   
   // Start with empty graphs
-  let baseGraph: Graph = { nodes: [], edges: [] };
-  let resultGraph: Graph = { nodes: [], edges: [] };
+  let baseGraph: Graph = createEmptyGraph();
+  let resultGraph: Graph = createEmptyGraph();
   
   for (const operationMeta of operations) {
     const [newBaseGraph, newResultGraph] = operationMeta.operation(baseGraph, resultGraph);

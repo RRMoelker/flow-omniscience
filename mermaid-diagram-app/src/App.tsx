@@ -8,17 +8,17 @@ import {
   InputSection, 
   SourceOperations, 
   ConstructiveOperations, 
-  FilterOperations, 
   ActiveOperations 
 } from './components/input';
 
-import { OperationMeta } from './data/types';
+import { OperationMeta, Node as GraphNode } from './data/types';
 import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createExternalSource, applyOperations } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
   const [graphData] = useState(createEmptyGraph());
   const [operations, setOperations] = useState<OperationMeta[]>([]);
+  const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const diagramRef = useRef<HTMLDivElement>(null);
 
   // Apply operations to get the processed graph
@@ -130,6 +130,11 @@ function App() {
     setOperations(prev => prev.filter(operation => operation.id !== operationId));
   };
 
+  // Add a handler for node selection
+  const handleNodeSelect = (nodeId: string) => {
+    const node = processedGraph.nodes.find(n => n.id === nodeId) || null;
+    setSelectedNode(node);
+  };
 
 
   return (
@@ -156,7 +161,9 @@ function App() {
             </InputSection>
             
             <InputSection title="Filter Operations" className="filter-section">
-              <FilterOperations />
+              {/* FilterOperations removed */}
+              {/* No children for this section now */}
+              <></>
             </InputSection>
           </InputWindow>
           
@@ -178,9 +185,17 @@ function App() {
                 onSetEndNode={handleSetEndNode}
                 onSetPassThroughNode={handleSetPassThroughNode}
                 onGroupCollapseNode={handleGroupCollapseNode}
+                onNodeSelect={handleNodeSelect}
               />
             </div>
-            <NodeInfoPanel selectedNode={null} />
+            <NodeInfoPanel 
+              selectedNode={selectedNode}
+              onSetStartNode={handleSetStartNode as (nodeId: string) => void}
+              onSetEndNode={handleSetEndNode as (nodeId: string) => void}
+              onSetPassThroughNode={handleSetPassThroughNode as (nodeId: string) => void}
+              groups={processedGraph.groups}
+              onGroupCollapseNode={handleGroupCollapseNode}
+            />
           </div>
         </div>
       </div>

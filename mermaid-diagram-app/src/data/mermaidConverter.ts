@@ -1,4 +1,4 @@
-import { Graph, Node, Edge } from './types';
+import { Graph, Node, Edge, Group } from './types';
 
 // Convert graph data to Mermaid syntax
 export const convertToMermaid = (graphData: Graph): string => {
@@ -9,28 +9,80 @@ export const convertToMermaid = (graphData: Graph): string => {
   mermaid += '  classDef group fill:#e6e6fa,stroke:#333,stroke-width:2px\n';
   mermaid += '  classDef data fill:#f5f5dc,stroke:#333,stroke-width:1px\n';
   mermaid += '  classDef process fill:#f0f8ff,stroke:#333,stroke-width:1px\n';
+  mermaid += '  classDef view fill:#ffe0b2,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 4 2\n';
+  mermaid += '  classDef database fill:#e0f7fa,stroke:#00838f,stroke-width:2px\n';
   
-  // Add nodes
-  graphData.nodes.forEach((node: Node) => {
-    // Add node ID as prefix to the name
-    const nodeNameWithId = `${node.id} - ${node.name}`;
-    const nodeLabel = node.group 
-      ? `${nodeNameWithId}<br/>Group: ${node.group}`
-      : nodeNameWithId;
-    
-    // Add color styling based on node type
-    let nodeStyle = '';
-    if (node.type === 'group') {
-      nodeStyle = ':::group';
-    } else if (node.type === 'data') {
-      nodeStyle = ':::data';
-    } else if (node.type === 'process') {
-      nodeStyle = ':::process';
+  // Build a map of groupId to group object
+  const groupMap: { [groupId: string]: Group } = {};
+  if (graphData.groups) {
+    graphData.groups.forEach(group => {
+      groupMap[group.id] = group;
+    });
+  }
+
+  // Build a map of groupId to nodes in that group
+  const groupNodesMap: { [groupId: string]: Node[] } = {};
+  if (graphData.groups) {
+    graphData.groups.forEach(group => {
+      groupNodesMap[group.id] = [];
+    });
+  }
+  graphData.nodes.forEach(node => {
+    if (node.groups) {
+      node.groups.forEach(groupId => {
+        if (!groupNodesMap[groupId]) groupNodesMap[groupId] = [];
+        groupNodesMap[groupId].push(node);
+      });
     }
-    
-    mermaid += `  ${node.id}["${nodeLabel}"]${nodeStyle}\n`;
   });
-  
+
+  // Track nodes that have been rendered in a group
+  const renderedNodeIds = new Set<string>();
+
+  // Add subgraphs for each group
+  if (graphData.groups) {
+    graphData.groups.forEach(group => {
+      mermaid += `  subgraph ${group.id}\n`;
+      (groupNodesMap[group.id] || []).forEach(node => {
+        if (!renderedNodeIds.has(node.id)) {
+          renderedNodeIds.add(node.id);
+        }
+        // Node label is just the name
+        const nodeLabel = node.name;
+        if (node.type === 'group') {
+          mermaid += `    ${node.id}["${nodeLabel}"]:::group\n`;
+        } else if (node.type === 'data') {
+          mermaid += `    ${node.id}["${nodeLabel}"]:::data\n`;
+        } else if (node.type === 'process') {
+          mermaid += `    ${node.id}["${nodeLabel}"]:::process\n`;
+        } else if (node.type === 'view') {
+          mermaid += `    ${node.id}["${nodeLabel}"]:::view\n`;
+        } else if (node.type === 'database') {
+          mermaid += `    ${node.id}[(${nodeLabel})]:::database\n`;
+        }
+      });
+      mermaid += '  end\n';
+    });
+  }
+
+  // Add ungrouped nodes (nodes not in any group)
+  graphData.nodes.forEach(node => {
+    if (!node.groups || node.groups.length === 0) {
+      const nodeLabel = node.name;
+      if (node.type === 'group') {
+        mermaid += `  ${node.id}["${nodeLabel}"]:::group\n`;
+      } else if (node.type === 'data') {
+        mermaid += `  ${node.id}["${nodeLabel}"]:::data\n`;
+      } else if (node.type === 'process') {
+        mermaid += `  ${node.id}["${nodeLabel}"]:::process\n`;
+      } else if (node.type === 'view') {
+        mermaid += `  ${node.id}["${nodeLabel}"]:::view\n`;
+      } else if (node.type === 'database') {
+        mermaid += `  ${node.id}[(${nodeLabel})]:::database\n`;
+      }
+    }
+  });
+
   // Add edges
   graphData.edges.forEach((edge: Edge) => {
     if (edge.label) {

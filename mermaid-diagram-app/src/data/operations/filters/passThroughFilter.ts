@@ -37,7 +37,8 @@ const passThroughFilter = (nodeId: string): OperationMeta => {
     
     const newResultGraph = {
       nodes: filteredNodes,
-      edges: filteredEdges
+      edges: filteredEdges,
+      groups: resultGraph.groups || []
     };
     
     return [baseGraph, newResultGraph, true]; // Return filtered graph and indicate applied

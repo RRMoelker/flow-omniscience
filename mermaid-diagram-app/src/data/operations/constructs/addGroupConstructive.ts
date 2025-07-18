@@ -4,7 +4,7 @@ import { Graph, OperationMeta } from '../../types';
 const addGroupConstructive = (groupId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Find all nodes in the specified group from the base graph
-    const nodesInGroup = baseGraph.nodes.filter(node => node.group === groupId);
+    const nodesInGroup = baseGraph.nodes.filter(node => node.groups && node.groups.includes(groupId));
     
     if (nodesInGroup.length === 0) {
       return [baseGraph, resultGraph, false]; // Return unchanged if no nodes in group
@@ -27,7 +27,8 @@ const addGroupConstructive = (groupId: string): OperationMeta => {
     
     const newResultGraph = {
       nodes: [...resultGraph.nodes, ...newNodes],
-      edges: [...resultGraph.edges, ...newEdges]
+      edges: [...resultGraph.edges, ...newEdges],
+      groups: resultGraph.groups || []
     };
     
     return [baseGraph, newResultGraph, newNodes.length > 0 || newEdges.length > 0];

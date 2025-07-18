@@ -12,11 +12,11 @@ const externalSource = (): OperationMeta => {
         const externalDataModule = require('./externalData');
         const externalGraph = externalDataModule.default();
         
-        return [externalGraph, externalGraph, true];
+        return [externalGraph, resultGraph, true];
       } catch (error) {
         console.error('Error loading external data:', error);
         // Return empty graph if external data fails to load
-        return [{ nodes: [], edges: [] }, { nodes: [], edges: [] }, false];
+        return [{ nodes: [], edges: [], groups: [] }, { nodes: [], edges: [], groups: [] }, false];
       }
     }
   };
