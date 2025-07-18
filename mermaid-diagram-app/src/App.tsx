@@ -8,17 +8,19 @@ import {
   InputSection, 
   SourceOperations, 
   ConstructiveOperations, 
-  ActiveOperations 
+  ActiveOperations, 
+  DisplayPanel 
 } from './components/input';
 
 import { OperationMeta, Node as GraphNode } from './data/types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createComplexExampleSource, createExternalSource, applyOperations } from './data/operations/operationsManager';
+import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
   const [graphData] = useState(createEmptyGraph());
   const [operations, setOperations] = useState<OperationMeta[]>([]);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
+  const [groupType, setGroupType] = useState('database');
   const diagramRef = useRef<HTMLDivElement>(null);
 
   // Apply operations to get the processed graph
@@ -102,26 +104,23 @@ function App() {
     }
   };
 
-  const handleAddExampleSource = () => {
+  const handleAddExampleSource1 = () => {
     const existingOperation = operations.find(op => op.id === 'example-source');
     if (existingOperation) {
-      // Remove existing operation
       setOperations(prev => prev.filter(op => op.id !== 'example-source'));
     } else {
-      // Add new operation at the beginning (priority 0)
-      const newOperation = createExampleSource();
+      const newOperation = createExampleSource1();
       setOperations(prev => [newOperation, ...prev]);
     }
   };
 
-  const handleAddComplexExampleSource = () => {
+  const handleAddExampleSource2 = () => {
     const existingOperation = operations.find(op => op.id === 'complex-example-source');
     if (existingOperation) {
       setOperations(prev => prev.filter(op => op.id !== 'complex-example-source'));
     } else {
-      // Remove any other source operation
       const filtered = operations.filter(op => op.priority !== 0);
-      const newOperation = createComplexExampleSource();
+      const newOperation = createExampleSource2();
       setOperations([newOperation, ...filtered]);
     }
   };
@@ -160,8 +159,8 @@ function App() {
           <InputWindow>
             <InputSection title="Source Operations" className="source-section">
               <SourceOperations 
-                onAddExampleSource={handleAddExampleSource}
-                onAddComplexExampleSource={handleAddComplexExampleSource}
+                onAddExampleSource={handleAddExampleSource1}
+                onAddComplexExampleSource={handleAddExampleSource2}
                 onAddExternalSource={handleAddExternalSource}
               />
             </InputSection>
@@ -171,6 +170,9 @@ function App() {
                 onAddAllConstructive={handleAddAllConstructive}
                 onAddGroupConstructive={handleAddGroupConstructive}
               />
+            </InputSection>
+            <InputSection title="Display" className="display-section">
+              <DisplayPanel groupType={groupType} onGroupTypeChange={setGroupType} />
             </InputSection>
             
             <InputSection title="Filter Operations" className="filter-section">
@@ -194,6 +196,7 @@ function App() {
               <DiagramRenderer
                 ref={diagramRef}
                 graphData={processedGraph}
+                groupType={groupType}
                 onSetStartNode={handleSetStartNode}
                 onSetEndNode={handleSetEndNode}
                 onSetPassThroughNode={handleSetPassThroughNode}

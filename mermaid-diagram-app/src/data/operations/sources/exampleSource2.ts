@@ -2,8 +2,15 @@ import { Graph, OperationMeta } from '../../types';
 
 const complexGraphData: Graph = {
   groups: [
-    { id: 'project_awesome', type: 'database' },
-    { id: 'data_sources', type: 'database' },
+    { id: 'project_awesome', type: 'project' },
+    { id: 'main_project', type: 'project' },
+    { id: 'train_eval_inference', type: 'project' },
+    { id: 'databricks', type: 'system' },
+    { id: 'job_runner', type: 'system' },
+    { id: 'deploy_tool', type: 'system' },
+    { id: 'inference_api', type: 'system' },
+    { id: 'kubernetes', type: 'system' },
+    { id: 'catalog.all', type: 'database' },
     { id: 'validation', type: 'database' },
     { id: 'processing', type: 'database' },
     { id: 'security', type: 'database' },
@@ -15,11 +22,12 @@ const complexGraphData: Graph = {
   ],
   nodes: [
     // Data Sources
-    { id: 'A', name: 'Raw User Data', type: 'database', groups: ['data_sources'] },
-    { id: 'B', name: 'Transaction Logs', type: 'data', groups: ['data_sources'] },
-    { id: 'C', name: 'External API Data', type: 'data', groups: ['data_sources'] },
-    { id: 'D', name: 'IoT Sensor Data', type: 'data', groups: ['data_sources'] },
-    { id: 'E', name: 'Legacy System Export', type: 'data', groups: ['data_sources'] },
+    { id: 'A', name: 'Raw User Data', type: 'database', groups: ['catalog.all'] },
+    { id: 'B', name: 'Transaction Logs', type: 'data', groups: ['catalog.all'] },
+    { id: 'C', name: 'External API Data', type: 'data', groups: ['catalog.all'] },
+    { id: 'D', name: 'IoT Sensor Data', type: 'data', groups: ['catalog.all'] },
+    { id: 'E', name: 'Legacy System Export', type: 'data', groups: ['catalog.all'] },
+    
     // Validation
     { id: 'F', name: 'Data Validation', type: 'process', groups: ['validation', 'project_awesome'] },
     { id: 'G', name: 'Schema Validation', type: 'process', groups: ['validation', 'project_awesome'] },
@@ -74,7 +82,19 @@ const complexGraphData: Graph = {
     { id: 'AW', name: 'Realtime Analytics', type: 'process', groups: ['analytics', 'etl'] },
     { id: 'AX', name: 'Realtime Dashboard', type: 'view', groups: ['analytics', 'reporting'] },
     { id: 'AY', name: 'Data API', type: 'process', groups: ['etl', 'reporting'] },
-    { id: 'AZ', name: 'API Output Table', type: 'data', groups: ['reporting'] }
+    { id: 'AZ', name: 'API Output Table', type: 'data', groups: ['reporting'] },
+    // Retrain Flow (parallel)
+    { id: 'R1', name: 'Data prep', type: 'process', groups: ['main_project', 'databricks'] },
+    { id: 'R2', name: 'train_eval_inference', type: 'process', groups: ['main_project', 'train_eval_inference', 'databricks'] },
+    { id: 'R3', name: 'train', type: 'process', groups: ['train_eval_inference', 'databricks'] },
+    { id: 'R4', name: 'eval', type: 'process', groups: ['train_eval_inference', 'databricks'] },
+    { id: 'R5', name: 'inference', type: 'process', groups: ['train_eval_inference', 'databricks'] },
+    // Deployment flow
+    { id: 'R6', name: 'deploy', type: 'process', groups: ['databricks'] },
+    { id: 'R7', name: 'deploy_pipeline', type: 'process', groups: ['deploy_tool'] },
+    { id: 'R8', name: 'inference_api', type: 'data', groups: ['kubernetes'] },
+    // Job Runner system
+    { id: 'JR1', name: 'daily_inference', type: 'process', groups: ['job_runner'] }
   ],
   edges: [
     // Data source flows
@@ -116,7 +136,18 @@ const complexGraphData: Graph = {
     { from: 'AX', to: 'AE' },
     { from: 'AY', to: 'AO' },
     { from: 'AP', to: 'AR' },
-    { from: 'AW', to: 'AE' }
+    { from: 'AW', to: 'AE' },
+    // Retrain flow edges
+    { from: 'R1', to: 'R2' },
+    { from: 'R2', to: 'R3' },
+    { from: 'R2', to: 'R4' },
+    { from: 'R2', to: 'R5' },
+    // Deployment flow edges
+    { from: 'R5', to: 'R6' },
+    { from: 'R6', to: 'R7' },
+    { from: 'R7', to: 'R8' },
+    // Job runner edge
+    { from: 'JR1', to: 'R5' }
   ]
 };
 

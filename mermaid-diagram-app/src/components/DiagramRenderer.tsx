@@ -7,6 +7,7 @@ import { addHoverHighlighting } from './display/hoverHighlighter';
 
 interface DiagramRendererProps {
   graphData: Graph;
+  groupType: string;
   onSetStartNode: (nodeId: string) => void;
   onSetEndNode: (nodeId: string) => void;
   onSetPassThroughNode: (nodeId: string) => void;
@@ -17,6 +18,7 @@ interface DiagramRendererProps {
 const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
   ({ 
     graphData, 
+    groupType,
     onSetStartNode, 
     onSetEndNode, 
     onSetPassThroughNode,
@@ -59,7 +61,7 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
           });
 
           // Convert graph data to Mermaid syntax
-          const mermaidCode = convertToMermaid(graphData);
+          const mermaidCode = convertToMermaid(graphData, groupType);
           console.log('Generated Mermaid code:', mermaidCode);
 
           // Create a unique ID for this diagram

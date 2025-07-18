@@ -6,8 +6,8 @@ import passThroughFilter from './filters/passThroughFilter';
 import groupCollapseTransformation from './transforms/groupCollapseTransformation';
 import allConstructive from './constructs/allConstructive';
 import addGroupConstructive from './constructs/addGroupConstructive';
-import exampleSource from './sources/exampleSource';
-import complexExampleSource from './sources/complexExampleSource';
+import exampleSource1 from './sources/exampleSource1';
+import exampleSource2 from './sources/exampleSource2';
 import externalSource from './sources/externalSource';
 
 // Apply operations to a graph in priority order
@@ -48,12 +48,12 @@ export const createGroupCollapseTransformation = (groupId: string): OperationMet
 };
 
 // Create source operations
-export const createExampleSource = (): OperationMeta => {
-  return exampleSource();
+export const createExampleSource1 = (): OperationMeta => {
+  return exampleSource1();
 };
 
-export const createComplexExampleSource = (): OperationMeta => {
-  return complexExampleSource();
+export const createExampleSource2 = (): OperationMeta => {
+  return exampleSource2();
 };
 
 export const createExternalSource = (): OperationMeta => {
