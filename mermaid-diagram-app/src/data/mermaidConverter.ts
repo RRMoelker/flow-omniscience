@@ -42,26 +42,27 @@ export const convertToMermaid = (graphData: Graph, groupType: string = 'database
   if (graphData.groups) {
     graphData.groups.forEach(group => {
       if (group.type === groupType) {
-        mermaid += `  subgraph ${group.id}\n`;
-        (groupNodesMap[group.id] || []).forEach(node => {
-          if (!renderedNodeIds.has(node.id)) {
+        const nodesInGroup = (groupNodesMap[group.id] || []).filter(node => !renderedNodeIds.has(node.id));
+        if (nodesInGroup.length > 0) {
+          mermaid += `  subgraph ${group.id}\n`;
+          nodesInGroup.forEach(node => {
             renderedNodeIds.add(node.id);
-          }
-          // Node label is just the name
-          const nodeLabel = node.name;
-          if (node.type === 'group') {
-            mermaid += `    ${node.id}["${nodeLabel}"]:::group\n`;
-          } else if (node.type === 'data') {
-            mermaid += `    ${node.id}["${nodeLabel}"]:::data\n`;
-          } else if (node.type === 'process') {
-            mermaid += `    ${node.id}["${nodeLabel}"]:::process\n`;
-          } else if (node.type === 'view') {
-            mermaid += `    ${node.id}["${nodeLabel}"]:::view\n`;
-          } else if (node.type === 'database') {
-            mermaid += `    ${node.id}[(${nodeLabel})]:::database\n`;
-          }
-        });
-        mermaid += '  end\n';
+            // Node label is just the name
+            const nodeLabel = node.name;
+            if (node.type === 'group') {
+              mermaid += `    ${node.id}["${nodeLabel}"]:::group\n`;
+            } else if (node.type === 'data') {
+              mermaid += `    ${node.id}["${nodeLabel}"]:::data\n`;
+            } else if (node.type === 'process') {
+              mermaid += `    ${node.id}["${nodeLabel}"]:::process\n`;
+            } else if (node.type === 'view') {
+              mermaid += `    ${node.id}["${nodeLabel}"]:::view\n`;
+            } else if (node.type === 'database') {
+              mermaid += `    ${node.id}[(${nodeLabel})]:::database\n`;
+            }
+          });
+          mermaid += '  end\n';
+        }
       }
     });
   }
