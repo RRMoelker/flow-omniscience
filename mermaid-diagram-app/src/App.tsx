@@ -12,7 +12,7 @@ import {
 } from './components/input';
 
 import { OperationMeta, Node as GraphNode } from './data/types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createExternalSource, applyOperations } from './data/operations/operationsManager';
+import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource, createComplexExampleSource, createExternalSource, applyOperations } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
@@ -114,6 +114,18 @@ function App() {
     }
   };
 
+  const handleAddComplexExampleSource = () => {
+    const existingOperation = operations.find(op => op.id === 'complex-example-source');
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== 'complex-example-source'));
+    } else {
+      // Remove any other source operation
+      const filtered = operations.filter(op => op.priority !== 0);
+      const newOperation = createComplexExampleSource();
+      setOperations([newOperation, ...filtered]);
+    }
+  };
+
   const handleAddExternalSource = () => {
     const existingOperation = operations.find(op => op.id === 'external-source');
     if (existingOperation) {
@@ -149,6 +161,7 @@ function App() {
             <InputSection title="Source Operations" className="source-section">
               <SourceOperations 
                 onAddExampleSource={handleAddExampleSource}
+                onAddComplexExampleSource={handleAddComplexExampleSource}
                 onAddExternalSource={handleAddExternalSource}
               />
             </InputSection>

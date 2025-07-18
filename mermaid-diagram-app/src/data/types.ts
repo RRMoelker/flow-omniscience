@@ -1,6 +1,6 @@
 export interface Group {
   id: string;
-  type: 'database'; // For now, only 'database' is supported
+  type: 'database' | 'project' | 'system';
 }
 
 export interface Node {

@@ -7,6 +7,7 @@ import groupCollapseTransformation from './transforms/groupCollapseTransformatio
 import allConstructive from './constructs/allConstructive';
 import addGroupConstructive from './constructs/addGroupConstructive';
 import exampleSource from './sources/exampleSource';
+import complexExampleSource from './sources/complexExampleSource';
 import externalSource from './sources/externalSource';
 
 // Apply operations to a graph in priority order
@@ -49,6 +50,10 @@ export const createGroupCollapseTransformation = (groupId: string): OperationMet
 // Create source operations
 export const createExampleSource = (): OperationMeta => {
   return exampleSource();
+};
+
+export const createComplexExampleSource = (): OperationMeta => {
+  return complexExampleSource();
 };
 
 export const createExternalSource = (): OperationMeta => {

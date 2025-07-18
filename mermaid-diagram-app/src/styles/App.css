@@ -789,3 +789,18 @@
   gap: 8px;
   justify-content: flex-start;
 }
+
+.source-btn-group {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+}
+
+.source-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 0;
+}
