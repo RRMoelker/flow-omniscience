@@ -20,7 +20,7 @@ function App() {
   const [graphData] = useState(createEmptyGraph());
   const [operations, setOperations] = useState<OperationMeta[]>([]);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [groupType, setGroupType] = useState<GroupType>('database');
+  const [groupType, setGroupType] = useState<GroupType>('project');
   const diagramRef = useRef<HTMLDivElement>(null);
 
   // Apply operations to get the processed graph
