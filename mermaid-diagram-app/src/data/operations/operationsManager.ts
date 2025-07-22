@@ -6,6 +6,8 @@ import passThroughFilter from './filters/passThroughFilter';
 import filterConnected from './filters/filterConnected';
 import groupCollapseTransformation from './transforms/groupCollapseTransformation';
 import removeNodeTransformation from './transforms/removeNodeTransformation';
+import growInTransformation from './transforms/growInTransformation';
+import growOutTransformation from './transforms/growOutTransformation';
 import allConstructive from './constructs/allConstructive';
 import addGroupConstructive from './constructs/addGroupConstructive';
 import exampleSource1 from './sources/exampleSource1';
@@ -55,6 +57,14 @@ export const createGroupCollapseTransformation = (groupId: string): OperationMet
 
 export const createRemoveNodeTransformation = (nodeId: string): OperationMeta => {
   return removeNodeTransformation(nodeId);
+};
+
+export const createGrowInTransformation = (nodeId: string): OperationMeta => {
+  return growInTransformation(nodeId);
+};
+
+export const createGrowOutTransformation = (nodeId: string): OperationMeta => {
+  return growOutTransformation(nodeId);
 };
 
 // Create source operations

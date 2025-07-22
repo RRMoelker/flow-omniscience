@@ -13,7 +13,7 @@ import {
 } from './components/input';
 
 import { OperationMeta, Node as GraphNode, GroupType } from './types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation, createFilterConnected } from './data/operations/operationsManager';
+import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation, createFilterConnected, createGrowInTransformation, createGrowOutTransformation } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
@@ -157,6 +157,26 @@ function App() {
     }
   };
 
+  const handleGrowIn = (nodeId: string) => {
+    const existingOperation = operations.find(op => op.id === `grow-in-${nodeId}`);
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== `grow-in-${nodeId}`));
+    } else {
+      const newOperation = createGrowInTransformation(nodeId);
+      setOperations(prev => [...prev, newOperation]);
+    }
+  };
+
+  const handleGrowOut = (nodeId: string) => {
+    const existingOperation = operations.find(op => op.id === `grow-out-${nodeId}`);
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== `grow-out-${nodeId}`));
+    } else {
+      const newOperation = createGrowOutTransformation(nodeId);
+      setOperations(prev => [...prev, newOperation]);
+    }
+  };
+
   const removeOperation = (operationId: string) => {
     setOperations(prev => prev.filter(operation => operation.id !== operationId));
   };
@@ -230,9 +250,14 @@ function App() {
               onSetEndNode={handleSetEndNode as (nodeId: string) => void}
               onSetPassThroughNode={handleSetPassThroughNode as (nodeId: string) => void}
               groups={processedGraph.groups}
+              edges={processedGraph.edges}
+              baseGraph={graphData}
+              displayedGraph={processedGraph}
               onGroupCollapseNode={handleGroupCollapseNode}
               onRemoveNode={handleRemoveNode}
               onFilterConnected={handleFilterConnected}
+              onGrowIn={handleGrowIn}
+              onGrowOut={handleGrowOut}
             />
           </div>
         </div>

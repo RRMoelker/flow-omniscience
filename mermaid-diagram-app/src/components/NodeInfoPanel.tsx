@@ -7,12 +7,17 @@ interface NodeInfoPanelProps {
   onSetEndNode: (nodeId: string) => void;
   onSetPassThroughNode: (nodeId: string) => void;
   groups: { id: string; type: string }[];
+  edges: { from: string; to: string; label?: string }[];
+  baseGraph: { nodes: { id: string }[]; edges: { from: string; to: string; label?: string }[] };
+  displayedGraph: { nodes: { id: string }[]; edges: { from: string; to: string; label?: string }[] };
   onGroupCollapseNode: (groupId: string) => void;
   onRemoveNode: (nodeId: string) => void;
   onFilterConnected: (nodeId: string) => void;
+  onGrowIn: (nodeId: string) => void;
+  onGrowOut: (nodeId: string) => void;
 }
 
-const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode, onRemoveNode, onFilterConnected }) => {
+const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, edges, baseGraph, displayedGraph, onGroupCollapseNode, onRemoveNode, onFilterConnected, onGrowIn, onGrowOut }) => {
   if (!selectedNode) {
     return (
       <div className="node-info-panel">
@@ -22,6 +27,12 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
     );
   }
 
+  // Compute if grow in/out is possible
+  const displayedEdgeSet = new Set(displayedGraph.edges.map(e => `${e.from}->${e.to}`));
+  const hasIncoming = baseGraph.edges.some(edge => edge.to === selectedNode.id && !displayedEdgeSet.has(`${edge.from}->${edge.to}`));
+  const hasOutgoing = baseGraph.edges.some(edge => edge.from === selectedNode.id && !displayedEdgeSet.has(`${edge.from}->${edge.to}`));
+
+  // Fallback: always enable if we can't check
   return (
     <div className="node-info-panel">
       <h3 className="detail-header">Node Info</h3>
@@ -78,6 +89,12 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
             </button>
             <button className="btn btn-info" onClick={() => onFilterConnected(selectedNode.id)}>
               🔗 Filter Connected
+            </button>
+            <button className="btn btn-success" onClick={() => onGrowIn(selectedNode.id)}>
+              ⬅️ Grow In
+            </button>
+            <button className="btn btn-success" onClick={() => onGrowOut(selectedNode.id)}>
+              Grow Out ➡️
             </button>
             <button className="btn btn-danger" onClick={() => onRemoveNode(selectedNode.id)}>
               🗑️ Remove Node

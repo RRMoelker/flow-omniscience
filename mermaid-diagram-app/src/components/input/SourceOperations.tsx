@@ -30,7 +30,7 @@ const SourceOperations: React.FC<SourceOperationsProps> = ({
           onClick={onAddExternalSource}
           className="btn btn-info source-btn"
         >
-          🌐 External
+          🌐 Ext
         </button>
       </div>
     </div>

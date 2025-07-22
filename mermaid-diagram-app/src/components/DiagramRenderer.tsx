@@ -115,7 +115,7 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
       };
 
       renderDiagram();
-    }, [graphData, onSetStartNode, onSetEndNode, onSetPassThroughNode, onGroupCollapseNode]);
+    }, [graphData, groupType, onSetStartNode, onSetEndNode, onSetPassThroughNode, onGroupCollapseNode, onNodeSelect]);
 
     return (
       <div 
