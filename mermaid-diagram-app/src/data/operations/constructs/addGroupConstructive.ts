@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../../types';
+import { Graph, OperationMeta } from '../../../types';
 
 // Add group constructive operation: adds all nodes for provided group
 const addGroupConstructive = (groupId: string): OperationMeta => {

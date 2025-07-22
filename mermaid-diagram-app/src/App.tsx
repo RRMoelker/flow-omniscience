@@ -12,7 +12,7 @@ import {
   DisplayPanel 
 } from './components/input';
 
-import { OperationMeta, Node as GraphNode, GroupType } from './data/types';
+import { OperationMeta, Node as GraphNode, GroupType } from './types';
 import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation, createFilterConnected } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 

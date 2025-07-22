@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../../types';
+import { Graph, OperationMeta } from '../../../types';
 import { findReachingNodes } from '../../graph/graphUtils';
 
 // End filter operation: takes a nodeId and returns an OperationMeta

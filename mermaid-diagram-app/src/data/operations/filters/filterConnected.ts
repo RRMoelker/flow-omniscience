@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../../types';
+import { Graph, OperationMeta } from '../../../types';
 import { findConnectedComponent } from '../../graph/graphUtils';
 
 // Filter Connected operation: keeps only the connected component of the node

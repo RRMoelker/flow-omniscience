@@ -1,5 +1,5 @@
 import React from 'react';
-import { OperationMeta } from '../../data/types';
+import { OperationMeta } from '../../types';
 
 interface ActiveOperationsProps {
   operations: OperationMeta[];

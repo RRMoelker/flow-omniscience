@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../../types';
+import { Graph, OperationMeta } from '../../../types';
 
 // All constructive operation: returns the full original graph
 const allConstructive = (): OperationMeta => {

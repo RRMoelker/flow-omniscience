@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../types';
+import { Graph, OperationMeta } from '../../types';
 import { createEmptyGraph } from '../graph/emptyGraph';
 import startFilter from './filters/startFilter';
 import endFilter from './filters/endFilter';

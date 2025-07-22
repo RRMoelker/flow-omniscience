@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../../types';
+import { Graph, OperationMeta } from '../../../types';
 
 // Remove node transformation operation: takes a nodeId and returns an OperationMeta
 const removeNodeTransformation = (nodeId: string): OperationMeta => {

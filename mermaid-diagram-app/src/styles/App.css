@@ -366,33 +366,6 @@
   align-items: center;
 }
 
-/* SVG Button Styles */
-.node-buttons {
-  display: none;
-  cursor: pointer;
-}
-
-.node:hover .node-buttons {
-  display: block !important;
-}
-
-.svg-button {
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-.svg-button:hover {
-  opacity: 0.8;
-}
-
-.svg-button rect {
-  transition: fill 0.2s ease;
-}
-
-.svg-button:hover rect {
-  filter: brightness(1.1);
-} 
-
 /* Operations Inputs Styles */
 .operations-inputs {
   background: #f8f9fa;
@@ -803,4 +776,30 @@
   font-weight: 600;
   font-size: 15px;
   padding: 8px 0;
+}
+
+g.node {
+  position: relative;
+}
+.svg-plus-btn {
+  pointer-events: auto;
+}
+.svg-plus-btn.left {
+  /* Position left of the node rectangle */
+  transform: translate(-32px, 0); /* 20px from edge + half button width */
+}
+.svg-plus-btn.right {
+  /* Position right of the node rectangle */
+  transform: translate(32px, 0); /* 20px from edge + half button width */
+}
+.svg-plus-btn-rect {
+  /* Center the button vertically */
+}
+.svg-plus-btn-text {
+  dominant-baseline: middle;
+  alignment-baseline: middle;
+}
+.svg-plus-btn.disabled {
+  pointer-events: none;
+  opacity: 0.4;
 }

@@ -1,4 +1,4 @@
-import { Graph, Node, Edge, OperationMeta } from '../../types';
+import { Graph, Node, Edge, OperationMeta } from '../../../types';
 
 // Group collapse transformation operation: takes a groupId and returns an OperationMeta
 const groupCollapseTransformation = (groupId: string): OperationMeta => {

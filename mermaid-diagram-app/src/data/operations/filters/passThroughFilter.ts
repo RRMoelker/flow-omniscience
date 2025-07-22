@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../../types';
+import { Graph, OperationMeta } from '../../../types';
 import { findReachableNodes, findReachingNodes } from '../../graph/graphUtils';
 
 // Pass-through filter operation: takes a nodeId and returns an OperationMeta

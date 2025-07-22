@@ -1,4 +1,4 @@
-import { Graph } from '../types';
+import { Graph } from '../../types';
 
 // Find all nodes reachable from a given start node
 export const findReachableNodes = (graph: Graph, startNodeId: string): Set<string> => {

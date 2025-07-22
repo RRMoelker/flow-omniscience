@@ -1,4 +1,4 @@
-import { Graph } from '../types';
+import { Graph } from '../../types';
 
 /**
  * Creates an empty graph with no nodes or edges

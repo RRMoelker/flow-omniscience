@@ -1,5 +1,5 @@
 import React from 'react';
-import { GROUP_TYPES, GroupType } from '../../data/types';
+import { GROUP_TYPES, GroupType } from '../../types';
 
 interface DisplayPanelProps {
   groupType: GroupType;

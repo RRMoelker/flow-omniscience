@@ -1,5 +1,5 @@
 import React from 'react';
-import { Node } from '../data/types';
+import { Node } from '../types';
 
 interface NodeInfoPanelProps {
   selectedNode: Node | null;

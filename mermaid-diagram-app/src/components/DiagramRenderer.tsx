@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, forwardRef } from 'react';
 import mermaid from 'mermaid';
-import { Graph, GroupType } from '../data/types';
+import { Graph, GroupType } from '../types';
 import { convertToMermaid } from '../data/mermaidConverter';
-import { addSvgButtonsToNodes } from './display/svgButtonRenderer';
+// import { addSvgButtonsToNodes } from './display/svgButtonRenderer';
 import { addHoverHighlighting } from './display/hoverHighlighter';
 
 interface DiagramRendererProps {
@@ -81,15 +81,14 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
               svgElement.style.transform = prevTransform;
               svgElement.style.transformOrigin = 'center';
             }
-            addSvgButtonsToNodes(
-              svgElement,
-              onSetStartNode,
-              onSetEndNode,
-              onSetPassThroughNode,
-              onGroupCollapseNode,
-              graphData
-            );
-            
+            // addSvgButtonsToNodes(
+            //   svgElement,
+            //   onSetStartNode,
+            //   onSetEndNode,
+            //   onSetPassThroughNode,
+            //   onGroupCollapseNode,
+            //   graphData
+            // );
             // Add hover highlighting
             addHoverHighlighting(svgElement, graphData);
 

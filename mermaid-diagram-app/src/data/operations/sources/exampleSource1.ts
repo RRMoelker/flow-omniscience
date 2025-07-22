@@ -1,4 +1,4 @@
-import { Graph, OperationMeta } from '../../types';
+import { Graph, OperationMeta } from '../../../types';
 
 // Data transformation pipeline with 20 nodes, multiple entry/exit points
 
