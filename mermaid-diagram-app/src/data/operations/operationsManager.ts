@@ -3,6 +3,7 @@ import { createEmptyGraph } from '../graph/emptyGraph';
 import startFilter from './filters/startFilter';
 import endFilter from './filters/endFilter';
 import passThroughFilter from './filters/passThroughFilter';
+import filterConnected from './filters/filterConnected';
 import groupCollapseTransformation from './transforms/groupCollapseTransformation';
 import removeNodeTransformation from './transforms/removeNodeTransformation';
 import allConstructive from './constructs/allConstructive';
@@ -41,6 +42,10 @@ export const createEndFilter = (nodeId: string): OperationMeta => {
 
 export const createPassThroughFilter = (nodeId: string): OperationMeta => {
   return passThroughFilter(nodeId);
+};
+
+export const createFilterConnected = (nodeId: string): OperationMeta => {
+  return filterConnected(nodeId);
 };
 
 // Create transformation operations

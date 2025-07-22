@@ -13,7 +13,7 @@ import {
 } from './components/input';
 
 import { OperationMeta, Node as GraphNode, GroupType } from './data/types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation } from './data/operations/operationsManager';
+import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation, createFilterConnected } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
@@ -147,6 +147,16 @@ function App() {
     }
   };
 
+  const handleFilterConnected = (nodeId: string) => {
+    const existingOperation = operations.find(op => op.id === `filter-connected-${nodeId}`);
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== `filter-connected-${nodeId}`));
+    } else {
+      const newOperation = createFilterConnected(nodeId);
+      setOperations(prev => [...prev, newOperation]);
+    }
+  };
+
   const removeOperation = (operationId: string) => {
     setOperations(prev => prev.filter(operation => operation.id !== operationId));
   };
@@ -222,6 +232,7 @@ function App() {
               groups={processedGraph.groups}
               onGroupCollapseNode={handleGroupCollapseNode}
               onRemoveNode={handleRemoveNode}
+              onFilterConnected={handleFilterConnected}
             />
           </div>
         </div>

@@ -63,3 +63,24 @@ export const findPassThroughNodes = (graph: Graph, nodeId: string): Set<string> 
   
   return passThrough;
 }; 
+
+// Find all nodes in the connected component of a given node (undirected traversal)
+export const findConnectedComponent = (graph: Graph, startNodeId: string): Set<string> => {
+  const connected = new Set<string>();
+  const toVisit = [startNodeId];
+
+  while (toVisit.length > 0) {
+    const current = toVisit.pop()!;
+    if (connected.has(current)) continue;
+    connected.add(current);
+
+    // Find all edges where current is either from or to (undirected)
+    const incidentEdges = graph.edges.filter(edge => edge.from === current || edge.to === current);
+    for (const edge of incidentEdges) {
+      if (edge.from !== current) toVisit.push(edge.from);
+      if (edge.to !== current) toVisit.push(edge.to);
+    }
+  }
+
+  return connected;
+}; 
