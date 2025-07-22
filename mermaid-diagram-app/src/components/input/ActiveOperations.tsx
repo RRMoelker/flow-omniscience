@@ -7,11 +7,7 @@ interface ActiveOperationsProps {
   onClearAll: () => void;
 }
 
-const ActiveOperations: React.FC<ActiveOperationsProps> = ({
-  operations,
-  onRemoveOperation,
-  onClearAll
-}) => {
+const ActiveOperations: React.FC<ActiveOperationsProps> = ({ operations, onRemoveOperation, onClearAll }) => {
   return (
     <div className="active-operations-window">
       <div className="active-operations-header sr-only">

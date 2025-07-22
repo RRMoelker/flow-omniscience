@@ -250,9 +250,6 @@ function App() {
               onSetEndNode={handleSetEndNode as (nodeId: string) => void}
               onSetPassThroughNode={handleSetPassThroughNode as (nodeId: string) => void}
               groups={processedGraph.groups}
-              edges={processedGraph.edges}
-              baseGraph={graphData}
-              displayedGraph={processedGraph}
               onGroupCollapseNode={handleGroupCollapseNode}
               onRemoveNode={handleRemoveNode}
               onFilterConnected={handleFilterConnected}

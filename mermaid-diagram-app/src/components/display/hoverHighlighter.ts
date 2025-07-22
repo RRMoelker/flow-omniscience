@@ -1,7 +1,5 @@
-import { Graph } from '../../types';
-
 // Add hover highlighting to nodes in the SVG
-export const addHoverHighlighting = (svgElement: SVGElement, graphData: Graph) => {
+export const addHoverHighlighting = (svgElement: SVGElement) => {
   // Find all node elements
   const nodeElements = svgElement.querySelectorAll('.node');
   

@@ -90,7 +90,7 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
             //   graphData
             // );
             // Add hover highlighting
-            addHoverHighlighting(svgElement, graphData);
+            addHoverHighlighting(svgElement);
 
             // Add click event for node selection
             if (typeof onNodeSelect === 'function') {

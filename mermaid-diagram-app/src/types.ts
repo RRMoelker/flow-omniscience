@@ -1,7 +1,12 @@
-// Group type options
+// =====================
+// Constants & Enums
+// =====================
 export const GROUP_TYPES = ['database', 'project', 'system', 'workflow', 'team'] as const;
 export type GroupType = typeof GROUP_TYPES[number];
 
+// =====================
+// Graph Data Model Types
+// =====================
 export interface Group {
   id: string;
   type: GroupType;
@@ -26,15 +31,13 @@ export interface Graph {
   groups: Group[];
 }
 
-// Operation is a function that transforms graphs and returns whether it was applied
-// Receives both the base graph and the result graph from the previous operation
-// Returns new base graph, new result graph, and whether it was applied
+// =====================
+// Operation Types
+// =====================
 export type Operation = (baseGraph: Graph, resultGraph: Graph) => [Graph, Graph, boolean];
 
-// Operation types
 export type OperationType = 'source' | 'constructive' | 'transform' | 'filter';
 
-// OperationMeta contains metadata about an operation
 export interface OperationMeta {
   id: string;
   label: string;
@@ -43,10 +46,11 @@ export interface OperationMeta {
   operation: Operation;
 }
 
-// OpCreator is a function that takes parameters and returns an OperationMeta
 export type OpCreator = (...args: any[]) => OperationMeta;
 
-// Metadata for UI display
+// =====================
+// UI Metadata Types
+// =====================
 export interface FilterMetadata {
   id: string;
   type: 'start' | 'end' | 'pass-through';

@@ -5,10 +5,7 @@ interface ConstructiveOperationsProps {
   onAddGroupConstructive: (groupId: string) => void;
 }
 
-const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({
-  onAddAllConstructive,
-  onAddGroupConstructive
-}) => {
+const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAllConstructive, onAddGroupConstructive }) => {
   const [groupNode, setGroupNode] = useState('');
 
   return (

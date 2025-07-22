@@ -7,9 +7,6 @@ interface NodeInfoPanelProps {
   onSetEndNode: (nodeId: string) => void;
   onSetPassThroughNode: (nodeId: string) => void;
   groups: { id: string; type: string }[];
-  edges: { from: string; to: string; label?: string }[];
-  baseGraph: { nodes: { id: string }[]; edges: { from: string; to: string; label?: string }[] };
-  displayedGraph: { nodes: { id: string }[]; edges: { from: string; to: string; label?: string }[] };
   onGroupCollapseNode: (groupId: string) => void;
   onRemoveNode: (nodeId: string) => void;
   onFilterConnected: (nodeId: string) => void;
@@ -17,7 +14,7 @@ interface NodeInfoPanelProps {
   onGrowOut: (nodeId: string) => void;
 }
 
-const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, edges, baseGraph, displayedGraph, onGroupCollapseNode, onRemoveNode, onFilterConnected, onGrowIn, onGrowOut }) => {
+const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode, onRemoveNode, onFilterConnected, onGrowIn, onGrowOut }) => {
   if (!selectedNode) {
     return (
       <div className="node-info-panel">
@@ -26,11 +23,6 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
       </div>
     );
   }
-
-  // Compute if grow in/out is possible
-  const displayedEdgeSet = new Set(displayedGraph.edges.map(e => `${e.from}->${e.to}`));
-  const hasIncoming = baseGraph.edges.some(edge => edge.to === selectedNode.id && !displayedEdgeSet.has(`${edge.from}->${edge.to}`));
-  const hasOutgoing = baseGraph.edges.some(edge => edge.from === selectedNode.id && !displayedEdgeSet.has(`${edge.from}->${edge.to}`));
 
   // Fallback: always enable if we can't check
   return (
