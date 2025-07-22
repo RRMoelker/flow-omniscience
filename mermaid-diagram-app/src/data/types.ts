@@ -1,5 +1,5 @@
 // Group type options
-export const GROUP_TYPES = ['database', 'project', 'system', 'workflow'] as const;
+export const GROUP_TYPES = ['database', 'project', 'system', 'workflow', 'team'] as const;
 export type GroupType = typeof GROUP_TYPES[number];
 
 export interface Group {
