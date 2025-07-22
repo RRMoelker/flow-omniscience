@@ -13,7 +13,7 @@ import {
 } from './components/input';
 
 import { OperationMeta, Node as GraphNode, GroupType } from './data/types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations } from './data/operations/operationsManager';
+import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
@@ -137,6 +137,16 @@ function App() {
     }
   };
 
+  const handleRemoveNode = (nodeId: string) => {
+    const existingOperation = operations.find(op => op.id === `remove-node-${nodeId}`);
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== `remove-node-${nodeId}`));
+    } else {
+      const newOperation = createRemoveNodeTransformation(nodeId);
+      setOperations(prev => [...prev, newOperation]);
+    }
+  };
+
   const removeOperation = (operationId: string) => {
     setOperations(prev => prev.filter(operation => operation.id !== operationId));
   };
@@ -211,6 +221,7 @@ function App() {
               onSetPassThroughNode={handleSetPassThroughNode as (nodeId: string) => void}
               groups={processedGraph.groups}
               onGroupCollapseNode={handleGroupCollapseNode}
+              onRemoveNode={handleRemoveNode}
             />
           </div>
         </div>

@@ -8,9 +8,10 @@ interface NodeInfoPanelProps {
   onSetPassThroughNode: (nodeId: string) => void;
   groups: { id: string; type: string }[];
   onGroupCollapseNode: (groupId: string) => void;
+  onRemoveNode: (nodeId: string) => void;
 }
 
-const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode }) => {
+const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode, onRemoveNode }) => {
   if (!selectedNode) {
     return (
       <div className="node-info-panel">
@@ -73,6 +74,9 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
             </button>
             <button className="btn btn-warning" onClick={() => onSetPassThroughNode(selectedNode.id)}>
               🔀 Pass-Through
+            </button>
+            <button className="btn btn-danger" onClick={() => onRemoveNode(selectedNode.id)}>
+             🗑️ Remove Node
             </button>
           </div>
         </div>
