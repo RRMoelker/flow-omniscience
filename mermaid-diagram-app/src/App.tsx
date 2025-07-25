@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './styles/App.css';
 import DiagramRenderer from './components/DiagramRenderer';
 import CameraController from './components/CameraController';
@@ -17,11 +17,49 @@ import { createStartFilter, createEndFilter, createPassThroughFilter, createGrou
 import { createEmptyGraph } from './data/graph/emptyGraph';
 
 function App() {
+  // Helper to rehydrate operations from plain objects
+  function rehydrateOperation(op: any): OperationMeta | null {
+    // Try to match by id prefix
+    if (op.id.startsWith('start-filter-')) return createStartFilter(op.id.replace('start-filter-', ''));
+    if (op.id.startsWith('end-filter-')) return createEndFilter(op.id.replace('end-filter-', ''));
+    if (op.id.startsWith('pass-through-filter-')) return createPassThroughFilter(op.id.replace('pass-through-filter-', ''));
+    if (op.id.startsWith('group-collapse-')) return createGroupCollapseTransformation(op.id.replace('group-collapse-', ''));
+    if (op.id === 'all-constructive') return createAllConstructive();
+    if (op.id.startsWith('add-group-constructive-')) return createAddGroupConstructive(op.id.replace('add-group-constructive-', ''));
+    if (op.id === 'example-source') return createExampleSource1();
+    if (op.id === 'complex-example-source') return createExampleSource2();
+    if (op.id === 'external-source') return createExternalSource();
+    if (op.id.startsWith('remove-node-')) return createRemoveNodeTransformation(op.id.replace('remove-node-', ''));
+    if (op.id.startsWith('filter-connected-')) return createFilterConnected(op.id.replace('filter-connected-', ''));
+    if (op.id.startsWith('grow-in-')) return createGrowInTransformation(op.id.replace('grow-in-', ''));
+    if (op.id.startsWith('grow-out-')) return createGrowOutTransformation(op.id.replace('grow-out-', ''));
+    return null;
+  }
+
   const [graphData] = useState(createEmptyGraph());
-  const [operations, setOperations] = useState<OperationMeta[]>([]);
+  // Load operations from sessionStorage if available
+  const [operations, setOperations] = useState<OperationMeta[]>(() => {
+    const stored = sessionStorage.getItem('operations');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed)
+          ? parsed.map(rehydrateOperation).filter(Boolean) as OperationMeta[]
+          : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  });
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [groupType, setGroupType] = useState<GroupType>('project');
   const diagramRef = useRef<HTMLDivElement>(null);
+
+  // Persist operations to sessionStorage on change
+  useEffect(() => {
+    sessionStorage.setItem('operations', JSON.stringify(operations));
+  }, [operations]);
 
   // Apply operations to get the processed graph
   const processedGraph = applyOperations(graphData, operations);
