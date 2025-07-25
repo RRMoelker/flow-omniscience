@@ -1,0 +1,156 @@
+@use 'theme';
+
+.main-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 340px;
+  min-width: 280px;
+  max-width: 400px;
+  background: theme.$color-bg;
+  padding: theme.$spacing * 2;
+  display: flex;
+  flex-direction: column;
+  gap: theme.$spacing * 2;
+  border-right: 1px solid #eee;
+}
+
+.operations-bar {
+  display: flex;
+  flex-direction: row;
+  gap: theme.$spacing * 2;
+  padding: theme.$spacing * 2;
+  background: theme.$color-bg;
+  border-bottom: 1px solid #eee;
+  align-items: flex-start;
+}
+
+.operations-bar > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.active-operations-bar {
+  width: 100%;
+  padding: theme.$spacing * 2;
+  background: theme.$color-bg;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 0;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: row;
+  gap: theme.$spacing * 2;
+  padding: theme.$spacing * 2;
+  align-items: flex-start;
+}
+
+.app-container {
+  width: 100vw;
+  min-height: 100vh;
+  background: theme.$color-bg;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: theme.$spacing * 2;
+}
+
+.graph-container {
+  display: flex;
+  gap: theme.$spacing * 2;
+  margin-top: theme.$spacing * 2;
+  height: 600px;
+}
+
+.mermaid-diagram-wrapper {
+  flex: 1 1 0;
+  min-width: 0;
+  background: #fff;
+  border-radius: theme.$border-radius;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: theme.$spacing;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.zoom-controls {
+  position: absolute;
+  top: theme.$spacing;
+  right: theme.$spacing;
+  z-index: 2;
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.85);
+  border-radius: theme.$border-radius;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 2px 6px;
+  align-items: center;
+}
+
+.mermaid-diagram-wrapper .zoom-in-btn,
+.mermaid-diagram-wrapper .zoom-out-btn {
+  background: theme.$color-success;
+  color: #fff;
+}
+
+.mermaid-diagram-wrapper .reset-btn {
+  background: theme.$color-danger;
+  color: #fff;
+}
+
+.mermaid-diagram-wrapper .view-all-btn {
+  background: theme.$color-info;
+  color: #fff;
+}
+
+.node-info-panel {
+  width: 300px;
+  min-width: 220px;
+  max-width: 340px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: theme.$border-radius;
+  padding: theme.$spacing * 1.5;
+  height: fit-content;
+  max-height: 600px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: theme.$spacing;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: theme.$spacing;
+}
+
+.section {
+  margin-bottom: theme.$spacing * 2;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+} 

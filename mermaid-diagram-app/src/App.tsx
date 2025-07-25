@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './styles/App.css';
 import DiagramRenderer from './components/DiagramRenderer';
 import CameraController from './components/CameraController';
 import NodeInfoPanel from './components/NodeInfoPanel';
@@ -229,72 +228,69 @@ function App() {
   return (
     <div className="App">
       <header className="App-header sr-only">
-        <h1>Mermaid Diagram App</h1>
+        <h1 className="sr-only">Mermaid Diagram App</h1>
       </header>
       
       <div className="app-container">
-        <div className="content-wrapper">
-          <InputWindow>
-            <InputSection title="Source Operations" className="source-section">
-              <SourceOperations 
-                onAddExampleSource={handleAddExampleSource1}
-                onAddComplexExampleSource={handleAddExampleSource2}
-                onAddExternalSource={handleAddExternalSource}
-              />
-            </InputSection>
-            
-            <InputSection title="Constructive Operations" className="constructive-section">
-              <ConstructiveOperations 
-                onAddAllConstructive={handleAddAllConstructive}
-                onAddGroupConstructive={handleAddGroupConstructive}
-              />
-            </InputSection>
-            <InputSection title="Display" className="display-section">
-              <DisplayPanel groupType={groupType} onGroupTypeChange={setGroupType} />
-            </InputSection>
-            
-            <InputSection title="Filter Operations" className="filter-section">
-              {/* FilterOperations removed */}
-              {/* No children for this section now */}
-              <></>
-            </InputSection>
-          </InputWindow>
-          
+        <div className="operations-bar">
+          <InputSection title="Source Operations" className="source-section">
+            <SourceOperations 
+              onAddExampleSource={handleAddExampleSource1}
+              onAddComplexExampleSource={handleAddExampleSource2}
+              onAddExternalSource={handleAddExternalSource}
+            />
+          </InputSection>
+          <InputSection title="Constructive Operations" className="constructive-section">
+            <ConstructiveOperations 
+              onAddAllConstructive={handleAddAllConstructive}
+              onAddGroupConstructive={handleAddGroupConstructive}
+            />
+          </InputSection>
+          <InputSection title="Display" className="display-section">
+            <DisplayPanel groupType={groupType} onGroupTypeChange={setGroupType} />
+          </InputSection>
+          <InputSection title="Filter Operations" className="filter-section">
+            {/* FilterOperations removed */}
+            {/* No children for this section now */}
+            <></>
+          </InputSection>
+        </div>
+        <div className="active-operations-bar">
           <ActiveOperations 
             operations={operations}
             onRemoveOperation={removeOperation}
             onClearAll={() => setOperations([])}
           />
-          
-          <div className="graph-container">
-            <div className="mermaid-diagram-wrapper">
-              <CameraController 
-                containerRef={diagramRef}
-              />
-              <DiagramRenderer
-                ref={diagramRef}
-                graphData={processedGraph}
-                groupType={groupType}
-                onSetStartNode={handleSetStartNode}
-                onSetEndNode={handleSetEndNode}
-                onSetPassThroughNode={handleSetPassThroughNode}
-                onGroupCollapseNode={handleGroupCollapseNode}
-                onNodeSelect={handleNodeSelect}
-              />
-            </div>
-            <NodeInfoPanel 
-              selectedNode={selectedNode}
-              onSetStartNode={handleSetStartNode as (nodeId: string) => void}
-              onSetEndNode={handleSetEndNode as (nodeId: string) => void}
-              onSetPassThroughNode={handleSetPassThroughNode as (nodeId: string) => void}
-              groups={processedGraph.groups}
+        </div>
+        <div className="main-content">
+          <div className="mermaid-diagram-wrapper">
+            <CameraController 
+              containerRef={diagramRef}
+            />
+            <DiagramRenderer
+              ref={diagramRef}
+              graphData={processedGraph}
+              groupType={groupType}
+              onSetStartNode={handleSetStartNode}
+              onSetEndNode={handleSetEndNode}
+              onSetPassThroughNode={handleSetPassThroughNode}
               onGroupCollapseNode={handleGroupCollapseNode}
-              onRemoveNode={handleRemoveNode}
-              onFilterConnected={handleFilterConnected}
-              onGrowIn={handleGrowIn}
-              onGrowOut={handleGrowOut}
+              onNodeSelect={handleNodeSelect}
             />
           </div>
+          <NodeInfoPanel 
+            className="node-info-panel"
+            selectedNode={selectedNode}
+            onSetStartNode={handleSetStartNode as (nodeId: string) => void}
+            onSetEndNode={handleSetEndNode as (nodeId: string) => void}
+            onSetPassThroughNode={handleSetPassThroughNode as (nodeId: string) => void}
+            groups={processedGraph.groups}
+            onGroupCollapseNode={handleGroupCollapseNode}
+            onRemoveNode={handleRemoveNode}
+            onFilterConnected={handleFilterConnected}
+            onGrowIn={handleGrowIn}
+            onGrowOut={handleGrowOut}
+          />
         </div>
       </div>
     </div>

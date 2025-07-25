@@ -47,7 +47,8 @@ export const createPassThroughFilter = (nodeId: string): OperationMeta => {
 };
 
 export const createFilterConnected = (nodeId: string): OperationMeta => {
-  return filterConnected(nodeId);
+  const op = filterConnected(nodeId);
+  return { ...op, type: 'filter' };
 };
 
 // Create transformation operations

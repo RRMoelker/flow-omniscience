@@ -171,11 +171,11 @@ const CameraController: React.FC<CameraControllerProps> = ({
 
   return (
     <div className="zoom-controls">
-      <button onClick={zoomIn} className="zoom-btn">+</button>
+      <button onClick={zoomIn} className="zoom-btn zoom-in-btn">+</button>
       <span className="zoom-level">{Math.round(cameraRef.current.zoom * 100)}%</span>
-      <button onClick={zoomOut} className="zoom-btn">-</button>
-      <button onClick={resetCamera} className="zoom-btn">Reset</button>
-      <button disabled onClick={viewAll} className="zoom-btn view-all-btn">View All</button>
+      <button onClick={zoomOut} className="zoom-btn zoom-out-btn">-</button>
+      <button onClick={resetCamera} className="zoom-btn reset-btn">Reset</button>
+      <button onClick={viewAll} className="zoom-btn view-all-btn">View All</button>
     </div>
   );
 };

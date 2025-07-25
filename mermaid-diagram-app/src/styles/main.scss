@@ -1,0 +1,12 @@
+@use 'theme';
+@use 'buttons';
+@use 'layout';
+@use 'components';
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: theme.$color-bg;
+  color: theme.$color-text;
+  margin: 0;
+  font-size: theme.$font-size-base;
+} 

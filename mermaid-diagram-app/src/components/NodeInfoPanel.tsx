@@ -12,9 +12,10 @@ interface NodeInfoPanelProps {
   onFilterConnected: (nodeId: string) => void;
   onGrowIn: (nodeId: string) => void;
   onGrowOut: (nodeId: string) => void;
+  className?: string;
 }
 
-const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode, onRemoveNode, onFilterConnected, onGrowIn, onGrowOut }) => {
+const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode, onRemoveNode, onFilterConnected, onGrowIn, onGrowOut, className }) => {
   if (!selectedNode) {
     return (
       <div className="node-info-panel">
@@ -26,7 +27,7 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
 
   // Fallback: always enable if we can't check
   return (
-    <div className="node-info-panel">
+    <div className={className ? className + ' node-info-panel' : 'node-info-panel'}>
       <h3 className="detail-header">Node Info</h3>
       <div className="node-details">
         <div className="detail-row">
@@ -86,7 +87,7 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
               ⬅️ Grow In
             </button>
             <button className="btn btn-success" onClick={() => onGrowOut(selectedNode.id)}>
-              Grow Out ➡️
+             ➡️ Grow Out
             </button>
             <button className="btn btn-danger" onClick={() => onRemoveNode(selectedNode.id)}>
               🗑️ Remove Node
