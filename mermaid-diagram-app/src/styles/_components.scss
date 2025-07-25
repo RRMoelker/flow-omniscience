@@ -37,7 +37,7 @@
 .group-list-item {
   display: flex;
   align-items: center;
-  background: #f3f3f6;
+  background: #fff;
   border-radius: theme.$border-radius;
   margin-bottom: 4px;
   padding: 4px 8px 4px 12px;
@@ -48,7 +48,7 @@
 .group-name {
   flex: 1 1 auto;
   font-weight: 500;
-  color: theme.$color-primary;
+  color: theme.$color-text;
   margin-right: 8px;
 }
 
