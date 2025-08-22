@@ -1,5 +1,6 @@
 import React from 'react';
 import { OperationMeta } from '../../types';
+import Button from '../common/Button';
 
 interface ActiveOperationsProps {
   operations: OperationMeta[];
@@ -8,6 +9,14 @@ interface ActiveOperationsProps {
 }
 
 const ActiveOperations: React.FC<ActiveOperationsProps> = ({ operations, onRemoveOperation, onClearAll }) => {
+  const opTypeToVariant = (type: OperationMeta['type']): 'primary' | 'source' | 'constructive' | 'filter' | 'removal' => {
+    if (type === 'source') return 'source';
+    if (type === 'constructive') return 'constructive';
+    if (type === 'filter') return 'filter';
+    // Map transforms to primary theme color
+    return 'primary';
+  };
+
   return (
     <div className="active-operations-window">
       <div className="active-operations-list-bar">
@@ -18,27 +27,22 @@ const ActiveOperations: React.FC<ActiveOperationsProps> = ({ operations, onRemov
             </div>
           ) : (
             operations.map((op) => (
-              <span
+              <Button
                 key={op.id}
-                className={`operation-tag ${op.type}`}
+                variant={opTypeToVariant(op.type)}
+                withCross
                 title={op.label}
+                onClick={() => onRemoveOperation(op.id)}
               >
-                <span className="operation-label">{op.label}</span>
-                <button
-                  className="remove-operation-btn"
-                  onClick={() => onRemoveOperation(op.id)}
-                  title="Remove operation"
-                >
-                  ×
-                </button>
-              </span>
+                {op.label}
+              </Button>
             ))
           )}
         </div>
         {operations.length > 0 && (
-          <button className="btn btn-removal clear-all-btn" onClick={onClearAll}>
+          <Button variant="removal" className="clear-all-btn" onClick={onClearAll}>
             Clear All
-          </button>
+          </Button>
         )}
       </div>
     </div>

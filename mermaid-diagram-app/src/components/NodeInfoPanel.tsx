@@ -1,5 +1,6 @@
 import React from 'react';
 import { Node } from '../types';
+import Button from './common/Button';
 
 interface NodeInfoPanelProps {
   selectedNode: Node | null;
@@ -48,13 +49,14 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
                   return (
                     <li key={groupId} className="group-list-item">
                       <span className="group-name">{group ? group.id : groupId}</span>
-                      <button
-                        className="btn btn-outline-primary btn-xs group-btn"
+                      <Button
+                        className="group-btn"
                         onClick={() => onGroupCollapseNode(groupId)}
                         title={`Collapse group: ${group ? group.id : groupId}`}
+                        variant="filter"
                       >
                         🗂️ Collapse
-                      </button>
+                      </Button>
                     </li>
                   );
                 })}
@@ -71,27 +73,13 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
         <div className="node-filters-section">
           <div className="node-filters-header">Node Filters</div>
           <div className="node-filters-row">
-            <button className="btn btn-filter" onClick={() => onSetStartNode(selectedNode.id)}>
-              ▶️ Start
-            </button>
-            <button className="btn btn-filter" onClick={() => onSetEndNode(selectedNode.id)}>
-              ⏹️ End
-            </button>
-            <button className="btn btn-filter" onClick={() => onSetPassThroughNode(selectedNode.id)}>
-              🔀 Pass-Through
-            </button>
-            <button className="btn btn-filter" onClick={() => onFilterConnected(selectedNode.id)}>
-              🔗 Filter Connected
-            </button>
-            <button className="btn btn-constructive" onClick={() => onGrowIn(selectedNode.id)}>
-              ⬅️ Grow In
-            </button>
-            <button className="btn btn-constructive" onClick={() => onGrowOut(selectedNode.id)}>
-             ➡️ Grow Out
-            </button>
-            <button className="btn btn-removal" onClick={() => onRemoveNode(selectedNode.id)}>
-              🗑️ Remove Node
-            </button>
+            <Button variant="filter" onClick={() => onSetStartNode(selectedNode.id)}>▶️ Start</Button>
+            <Button variant="filter" onClick={() => onSetEndNode(selectedNode.id)}>⏹️ End</Button>
+            <Button variant="filter" onClick={() => onSetPassThroughNode(selectedNode.id)}>🔀 Pass-Through</Button>
+            <Button variant="filter" onClick={() => onFilterConnected(selectedNode.id)}>🔗 Filter Connected</Button>
+            <Button variant="constructive" onClick={() => onGrowIn(selectedNode.id)}>⬅️ Grow In</Button>
+            <Button variant="constructive" onClick={() => onGrowOut(selectedNode.id)}>➡️ Grow Out</Button>
+            <Button variant="removal" onClick={() => onRemoveNode(selectedNode.id)}>🗑️ Remove Node</Button>
           </div>
         </div>
       </div>

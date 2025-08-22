@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from '../common/Button';
 
 interface ConstructiveOperationsProps {
   onAddAllConstructive: () => void;
@@ -10,12 +11,9 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAl
 
   return (
     <div className="constructive-row">
-      <button 
-        onClick={onAddAllConstructive}
-        className="btn btn-constructive"
-      >
+      <Button onClick={onAddAllConstructive} variant="constructive">
         🌐 Add All Nodes
-      </button>
+      </Button>
       
       <div className="input-group">
         <label htmlFor="groupNode" className="sr-only">Group:</label>
@@ -26,7 +24,7 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAl
           onChange={(e) => setGroupNode(e.target.value)}
           placeholder="Enter group name" 
         />
-        <button 
+        <Button
           onClick={() => {
             if (groupNode.trim()) {
               onAddGroupConstructive(groupNode.trim());
@@ -34,10 +32,10 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAl
             }
           }}
           disabled={!groupNode.trim()}
-          className="btn btn-constructive"
+          variant="constructive"
         >
           📦 Add Group
-        </button>
+        </Button>
       </div>
     </div>
   );

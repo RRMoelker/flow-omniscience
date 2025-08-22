@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../common/Button';
 
 interface SourceOperationsProps {
   onAddExampleSource: () => void;
@@ -14,24 +15,15 @@ const SourceOperations: React.FC<SourceOperationsProps> = ({
   return (
     <div className="source-row">
       <div className="input-group source-btn-group">
-        <button 
-          onClick={onAddExampleSource}
-          className="btn btn-source source-btn"
-        >
+        <Button onClick={onAddExampleSource} variant="source" className="source-btn">
           Ex1
-        </button>
-        <button 
-          onClick={onAddComplexExampleSource}
-          className="btn btn-source source-btn"
-        >
+        </Button>
+        <Button onClick={onAddComplexExampleSource} variant="source" className="source-btn">
           Ex2
-        </button>
-        <button 
-          onClick={onAddExternalSource}
-          className="btn btn-source source-btn"
-        >
+        </Button>
+        <Button onClick={onAddExternalSource} variant="source" className="source-btn">
           🌐 Ext
-        </button>
+        </Button>
       </div>
     </div>
   );

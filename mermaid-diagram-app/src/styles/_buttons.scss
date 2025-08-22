@@ -23,6 +23,31 @@
   &:disabled    { opacity: 0.6; cursor: not-allowed; }
 }
 
+.btn-with-cross {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-with-cross::before,
+.btn-with-cross::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 1px;
+  background: rgba(255,255,255,0.35);
+  transform-origin: center;
+}
+
+.btn-with-cross::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.btn-with-cross::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 .operations-list {
   display: flex;
   flex-direction: row;
