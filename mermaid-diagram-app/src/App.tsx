@@ -24,7 +24,7 @@ function App() {
     if (op.id.startsWith('pass-through-filter-')) return createPassThroughFilter(op.id.replace('pass-through-filter-', ''));
     if (op.id.startsWith('group-collapse-')) return createGroupCollapseTransformation(op.id.replace('group-collapse-', ''));
     if (op.id === 'all-constructive') return createAllConstructive();
-    if (op.id.startsWith('add-group-constructive-')) return groupAdd(op.id.replace('add-group-constructive-', ''));
+    if (op.id.startsWith('add-group-')) return groupAdd(op.id.replace('add-group-', ''));
     if (op.id === 'example-source') return createExampleSource1();
     if (op.id === 'complex-example-source') return createExampleSource2();
     if (op.id === 'external-source') return createExternalSource();
