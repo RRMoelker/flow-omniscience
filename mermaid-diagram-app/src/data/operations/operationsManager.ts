@@ -1,22 +1,22 @@
 import { Graph, OperationMeta } from '../../types';
 import { createEmptyGraph } from '../graph/emptyGraph';
 //
-import startFilter from './filters/startFilter';
-import endFilter from './filters/endFilter';
-import passThroughFilter from './filters/passThroughFilter';
-import filterConnected from './filters/filterConnected';
+import startFilter from './filter/startFilter';
+import endFilter from './filter/endFilter';
+import passThroughFilter from './filter/passThroughFilter';
+import filterConnected from './filter/connectedFilter';
 //
-import groupCollapseTransformation from './transforms/groupCollapseTransform';
-import removeNodeTransformation from './removal/nodeRemoval';
+import groupCollapseTransformation from './transform/groupCollapseTransform';
+import removeNodeTransformation from './remove/nodeRemove';
 //
-import growInTransformation from './constructs/growInConstruct';
-import growOutTransformation from './constructs/growOutConstruct';
-import allConstructive from './constructs/allConstruct';
-import addGroupConstructive from './constructs/addGroupConstruct';
+import growInTransformation from './add/growInAdd';
+import growOutTransformation from './add/growOutAdd';
+import allConstructive from './add/allNodesAdd';
+import addGroupConstructive from './add/groupAdd';
 //
-import exampleSource1 from './sources/exampleSource1';
-import exampleSource2 from './sources/exampleSource2';
-import externalSource from './sources/externalSource';
+import exampleSource1 from './source/exampleSource1';
+import exampleSource2 from './source/exampleSource2';
+import externalSource from './source/externalSource';
 
 // Apply operations to a graph in priority order
 export const applyOperations = (originalGraph: Graph, operations: OperationMeta[]): Graph => {
