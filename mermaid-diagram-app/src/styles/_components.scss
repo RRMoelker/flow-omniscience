@@ -79,4 +79,54 @@
   border: 1px solid #ced4da;
   border-radius: theme.$border-radius;
   font-size: theme.$font-size-base;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.search-results-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: theme.$border-radius;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.search-result-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.search-result-row:hover {
+  background: #f7f7f9;
+}
+
+.search-result-kind {
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: lowercase;
+  color: #6c757d;
+}
+
+.search-result-kind.kind-node { color: theme.$color-primary; }
+.search-result-kind.kind-group { color: theme.$color-info; }
+
+.search-result-label {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 } 

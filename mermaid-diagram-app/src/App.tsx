@@ -244,6 +244,8 @@ function App() {
             <ConstructiveOperations 
               onAddAllConstructive={handleAddAllConstructive}
               onAddGroupConstructive={handleAddGroupConstructive}
+              nodes={processedGraph.nodes}
+              groups={processedGraph.groups}
             />
           </InputSection>
           <InputSection title="Display" className="display-section">
