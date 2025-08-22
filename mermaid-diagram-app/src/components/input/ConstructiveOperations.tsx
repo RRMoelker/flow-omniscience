@@ -1,42 +1,35 @@
 import React, { useState } from 'react';
 import Button from '../common/Button';
+import TextInput from '../common/TextInput';
+import InputGroup from '../common/InputGroup';
 
 interface ConstructiveOperationsProps {
   onAddAllConstructive: () => void;
   onAddGroupConstructive: (groupId: string) => void;
 }
 
-const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAllConstructive, onAddGroupConstructive }) => {
-  const [groupNode, setGroupNode] = useState('');
+const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAllConstructive }) => {
+  const [value, setValue] = useState('');
 
   return (
     <div className="constructive-row">
       <Button onClick={onAddAllConstructive} variant="constructive">
         🌐 Add All Nodes
       </Button>
-      
-      <div className="input-group">
-        <label htmlFor="groupNode" className="sr-only">Group:</label>
-        <input 
-          type="text" 
-          id="groupNode" 
-          value={groupNode}
-          onChange={(e) => setGroupNode(e.target.value)}
-          placeholder="Enter group name" 
+
+      <InputGroup>
+        <TextInput
+          id="genericInput"
+          label="Add"
+          hideLabel
+          placeholder="Enter value"
+          value={value}
+          onChange={(e) => setValue((e.target as HTMLInputElement).value)}
         />
-        <Button
-          onClick={() => {
-            if (groupNode.trim()) {
-              onAddGroupConstructive(groupNode.trim());
-              setGroupNode('');
-            }
-          }}
-          disabled={!groupNode.trim()}
-          variant="constructive"
-        >
-          📦 Add Group
+        <Button variant="constructive">
+          Add
         </Button>
-      </div>
+      </InputGroup>
     </div>
   );
 };

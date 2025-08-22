@@ -54,4 +54,18 @@
 
 .group-btn {
   margin-left: 8px;
+}
+
+.input-group-row {
+  display: flex;
+  flex-direction: row;
+  gap: theme.$spacing;
+  align-items: center;
+}
+
+.text-input input {
+  padding: 6px 10px;
+  border: 1px solid #ced4da;
+  border-radius: theme.$border-radius;
+  font-size: theme.$font-size-base;
 } 
