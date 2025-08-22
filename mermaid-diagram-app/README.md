@@ -2,6 +2,10 @@
 
 A React TypeScript application for creating and manipulating interactive Mermaid diagrams with advanced graph operations.
 
+## TODO/Wishlist
+
+* Implement proper UI components, either custom-built or using a component library such as [Mantine](https://mantine.dev/core/autocomplete/)
+
 ## Project Overview
 
 This app allows users to build complex graph diagrams using a pipeline of operations: **Sources** → **Constructive** → **Transformations** → **Filters**. Each operation type has a specific priority and purpose in the graph processing pipeline.
