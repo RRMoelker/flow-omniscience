@@ -11,15 +11,15 @@
   font-weight: 600;
   // Generic variants (kept for compatibility)
   &.btn-primary { background: theme.$color-primary; color: #fff; }
-  &.btn-success { background: theme.$op-constructive; color: #fff; }
+  &.btn-success { background: theme.$op-add; color: #fff; }
   &.btn-warning { background: theme.$op-filter; color: #212529; }
-  &.btn-danger  { background: theme.$op-removal; color: #fff; }
+  &.btn-danger  { background: theme.$op-remove; color: #fff; }
   &.btn-info    { background: theme.$op-source; color: #fff; }
   // Operation-specific variants (preferred)
   &.btn-source { background: theme.$op-source; color: #fff; }
-  &.btn-constructive { background: theme.$op-constructive; color: #fff; }
+  &.btn-add { background: theme.$op-add; color: #fff; }
   &.btn-filter { background: theme.$op-filter; color: #212529; }
-  &.btn-removal { background: theme.$op-removal; color: #fff; }
+  &.btn-remove { background: theme.$op-remove; color: #fff; }
   &:disabled    { opacity: 0.6; cursor: not-allowed; }
 }
 
@@ -92,7 +92,7 @@
   background: #e9ecef;
   color: theme.$color-text;
   &.source { background: theme.$op-source; color: #fff; }
-  &.constructive { background: theme.$op-constructive; color: #fff; }
+  &.add { background: theme.$op-add; color: #fff; }
   &.transform { background: theme.$color-primary; color: #fff; }
   &.filter { background: theme.$op-filter; color: #212529; }
 }
@@ -112,4 +112,18 @@
   border-radius: 2px;
   transition: background 0.15s;
   &:hover { background: #fff2; }
+}
+
+.clear-all-btn {
+  margin-left: auto;
+  background: theme.$op-remove;
+  color: #fff;
+  border: none;
+  border-radius: theme.$border-radius;
+  padding: theme.$button-padding;
+  font-size: theme.$font-size-base;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  &:hover { background: color.adjust(theme.$op-remove, $lightness: -10%); }
 } 

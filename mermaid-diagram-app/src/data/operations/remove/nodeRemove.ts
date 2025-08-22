@@ -24,7 +24,7 @@ const removeNodeTransformation = (nodeId: string): OperationMeta => {
     id: `remove-node-${nodeId}`,
     label: `Remove Node: ${nodeId}`,
     priority: 200, // Transform priority
-    type: 'transform',
+    type: 'remove',
     operation
   };
 };

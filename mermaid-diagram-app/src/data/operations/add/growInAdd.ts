@@ -30,7 +30,7 @@ const growInTransformation = (nodeId: string): OperationMeta => {
     id: `grow-in-${nodeId}`,
     label: `Grow In: ${nodeId}`,
     priority: 200,
-    type: 'transform',
+    type: 'add',
     operation
   };
 };

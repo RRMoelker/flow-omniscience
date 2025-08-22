@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ButtonVariant = 'primary' | 'source' | 'constructive' | 'filter' | 'removal';
+type ButtonVariant = 'primary' | 'source' | 'add' | 'filter' | 'remove' | 'transform';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -9,10 +9,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantToClass: Record<ButtonVariant, string> = {
   primary: 'btn-primary',
+  //
   source: 'btn-source',
-  constructive: 'btn-constructive',
+  add: 'btn-add',
   filter: 'btn-filter',
-  removal: 'btn-removal'
+  remove: 'btn-remove',
+  transform: 'btn-transform'
 };
 
 const Button: React.FC<ButtonProps> = ({ variant = 'primary', withCross = false, className = '', children, ...rest }) => {

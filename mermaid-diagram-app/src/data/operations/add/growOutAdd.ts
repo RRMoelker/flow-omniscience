@@ -30,7 +30,7 @@ const growOutTransformation = (nodeId: string): OperationMeta => {
     id: `grow-out-${nodeId}`,
     label: `Grow Out: ${nodeId}`,
     priority: 200,
-    type: 'transform',
+    type: 'add',
     operation
   };
 };

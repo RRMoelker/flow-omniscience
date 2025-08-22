@@ -36,7 +36,7 @@ export interface Graph {
 // =====================
 export type Operation = (baseGraph: Graph, resultGraph: Graph) => [Graph, Graph, boolean];
 
-export type OperationType = 'source' | 'constructive' | 'transform' | 'filter';
+export type OperationType = 'source' | 'add' | 'transform' | 'filter' | 'remove';
 
 export interface OperationMeta {
   id: string;

@@ -38,7 +38,7 @@ const addGroupConstructive = (groupId: string): OperationMeta => {
     id: `add-group-constructive-${groupId}`,
     label: `Add Group: ${groupId}`,
     priority: 100, // Constructive priority
-    type: 'constructive',
+    type: 'add',
     operation
   };
 };

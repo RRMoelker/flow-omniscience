@@ -53,7 +53,7 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
                         className="group-btn"
                         onClick={() => onGroupCollapseNode(groupId)}
                         title={`Collapse group: ${group ? group.id : groupId}`}
-                        variant="filter"
+                        variant="transform"
                       >
                         🗂️ Collapse
                       </Button>
@@ -77,9 +77,9 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
             <Button variant="filter" onClick={() => onSetEndNode(selectedNode.id)}>⏹️ End</Button>
             <Button variant="filter" onClick={() => onSetPassThroughNode(selectedNode.id)}>🔀 Pass-Through</Button>
             <Button variant="filter" onClick={() => onFilterConnected(selectedNode.id)}>🔗 Filter Connected</Button>
-            <Button variant="constructive" onClick={() => onGrowIn(selectedNode.id)}>⬅️ Grow In</Button>
-            <Button variant="constructive" onClick={() => onGrowOut(selectedNode.id)}>➡️ Grow Out</Button>
-            <Button variant="removal" onClick={() => onRemoveNode(selectedNode.id)}>🗑️ Remove Node</Button>
+            <Button variant="add" onClick={() => onGrowIn(selectedNode.id)}>⬅️ Grow In</Button>
+            <Button variant="add" onClick={() => onGrowOut(selectedNode.id)}>➡️ Grow Out</Button>
+            <Button variant="remove" onClick={() => onRemoveNode(selectedNode.id)}>🗑️ Remove Node</Button>
           </div>
         </div>
       </div>

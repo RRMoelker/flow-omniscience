@@ -12,7 +12,7 @@ const allConstructive = (): OperationMeta => {
     id: 'all-constructive',
     label: 'All Nodes',
     priority: 100, // Constructive priority
-    type: 'constructive',
+    type: 'add',
     operation
   };
 };

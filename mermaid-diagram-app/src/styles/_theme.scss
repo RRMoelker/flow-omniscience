@@ -1,8 +1,8 @@
 // Theme variables
 $color-primary: #007bff;
-$color-success: #28a745; // constructive
+$color-success: #28a745; // constructive / add
 $color-warning: #ffc107; // filters
-$color-danger: #dc3545;  // removal
+$color-danger: #dc3545;  // removal / remove
 $color-info: #17a2b8;    // source
 $color-bg: #f8f9fa;
 $color-text: #212529;
@@ -15,7 +15,8 @@ $button-padding: 6px 14px;
 $button-margin: 0 4px 4px 0;
 
 // Semantic operation colors
-$op-constructive: $color-success; // green
-$op-source: $color-info;          // teal
-$op-filter: $color-warning;        // yellow
-$op-removal: $color-danger;        // red 
+$op-add: $color-success;       // green (was op-constructive)
+$op-source: $color-info;       // teal #17a2b8
+$op-filter: $color-warning;    // yellow #ffc107
+$op-remove: $color-danger;     // red #dc3545 
+$op-transform: #ef8dfc;     //

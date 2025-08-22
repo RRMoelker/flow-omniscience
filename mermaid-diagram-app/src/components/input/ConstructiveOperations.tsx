@@ -13,7 +13,7 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAl
 
   return (
     <div className="constructive-row">
-      <Button onClick={onAddAllConstructive} variant="constructive">All Nodes</Button>
+      <Button onClick={onAddAllConstructive} variant="add">All Nodes</Button>
 
       <InputGroup>
         <TextInput
@@ -24,7 +24,7 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ onAddAl
           value={value}
           onChange={(e) => setValue((e.target as HTMLInputElement).value)}
         />
-        <Button variant="constructive">
+        <Button variant="add">
           Add
         </Button>
       </InputGroup>
