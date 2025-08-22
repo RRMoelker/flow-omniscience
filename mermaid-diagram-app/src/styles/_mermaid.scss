@@ -1,0 +1,43 @@
+@use 'theme';
+
+.mermaid-diagram-wrapper {
+  flex: 1 1 0;
+  min-width: 0;
+  background: #fff;
+  border-radius: theme.$border-radius;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: theme.$spacing;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.zoom-controls {
+  position: absolute;
+  top: theme.$spacing;
+  right: theme.$spacing;
+  z-index: 2;
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.85);
+  border-radius: theme.$border-radius;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 2px 6px;
+  align-items: center;
+}
+
+.mermaid-diagram-wrapper .zoom-in-btn,
+.mermaid-diagram-wrapper .zoom-out-btn {
+  background: theme.$color-success;
+  color: #fff;
+}
+
+.mermaid-diagram-wrapper .reset-btn {
+  background: theme.$color-danger;
+  color: #fff;
+}
+
+.mermaid-diagram-wrapper .view-all-btn {
+  background: theme.$color-info;
+  color: #fff;
+} 

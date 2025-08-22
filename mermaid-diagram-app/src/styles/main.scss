@@ -2,6 +2,8 @@
 @use 'buttons';
 @use 'layout';
 @use 'components';
+@use 'utilities';
+@use 'mermaid';
 
 body {
   font-family: 'Inter', Arial, sans-serif;
