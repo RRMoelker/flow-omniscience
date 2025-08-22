@@ -16,19 +16,19 @@ const SourceOperations: React.FC<SourceOperationsProps> = ({
       <div className="input-group source-btn-group">
         <button 
           onClick={onAddExampleSource}
-          className="btn btn-info source-btn"
+          className="btn btn-source source-btn"
         >
           Ex1
         </button>
         <button 
           onClick={onAddComplexExampleSource}
-          className="btn btn-info source-btn"
+          className="btn btn-source source-btn"
         >
           Ex2
         </button>
         <button 
           onClick={onAddExternalSource}
-          className="btn btn-info source-btn"
+          className="btn btn-source source-btn"
         >
           🌐 Ext
         </button>

@@ -9,11 +9,17 @@
   border: none;
   cursor: pointer;
   font-weight: 600;
+  // Generic variants (kept for compatibility)
   &.btn-primary { background: theme.$color-primary; color: #fff; }
-  &.btn-success { background: theme.$color-success; color: #fff; }
-  &.btn-warning, &.btn-warning.operation-tag.filter, &.operation-tag.filter { background: theme.$color-warning; color: #212529; }
-  &.btn-danger  { background: theme.$color-danger; color: #fff; }
-  &.btn-info    { background: theme.$color-info; color: #fff; }
+  &.btn-success { background: theme.$op-constructive; color: #fff; }
+  &.btn-warning { background: theme.$op-filter; color: #212529; }
+  &.btn-danger  { background: theme.$op-removal; color: #fff; }
+  &.btn-info    { background: theme.$op-source; color: #fff; }
+  // Operation-specific variants (preferred)
+  &.btn-source { background: theme.$op-source; color: #fff; }
+  &.btn-constructive { background: theme.$op-constructive; color: #fff; }
+  &.btn-filter { background: theme.$op-filter; color: #212529; }
+  &.btn-removal { background: theme.$op-removal; color: #fff; }
   &:disabled    { opacity: 0.6; cursor: not-allowed; }
 }
 
@@ -34,20 +40,6 @@
 
 .active-operations-list-bar .operations-list {
   flex: 1 1 0;
-}
-
-.clear-all-btn {
-  margin-left: auto;
-  background: theme.$color-danger;
-  color: #fff;
-  border: none;
-  border-radius: theme.$border-radius;
-  padding: theme.$button-padding;
-  font-size: theme.$font-size-base;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s;
-  &:hover { background: color.adjust(theme.$color-danger, $lightness: -10%); }
 }
 
 // Camera controls
@@ -74,10 +66,10 @@
   margin: theme.$button-margin;
   background: #e9ecef;
   color: theme.$color-text;
-  &.source { background: theme.$color-info; color: #fff; }
-  &.constructive { background: theme.$color-success; color: #fff; }
+  &.source { background: theme.$op-source; color: #fff; }
+  &.constructive { background: theme.$op-constructive; color: #fff; }
   &.transform { background: theme.$color-primary; color: #fff; }
-  // .filter is now handled above for yellow
+  &.filter { background: theme.$op-filter; color: #212529; }
 }
 
 .operation-label {

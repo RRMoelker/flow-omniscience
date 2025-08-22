@@ -36,7 +36,7 @@ const ActiveOperations: React.FC<ActiveOperationsProps> = ({ operations, onRemov
           )}
         </div>
         {operations.length > 0 && (
-          <button className="clear-all-btn" onClick={onClearAll}>
+          <button className="btn btn-removal clear-all-btn" onClick={onClearAll}>
             Clear All
           </button>
         )}

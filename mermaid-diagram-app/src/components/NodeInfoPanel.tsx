@@ -71,25 +71,25 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
         <div className="node-filters-section">
           <div className="node-filters-header">Node Filters</div>
           <div className="node-filters-row">
-            <button className="btn btn-warning" onClick={() => onSetStartNode(selectedNode.id)}>
+            <button className="btn btn-filter" onClick={() => onSetStartNode(selectedNode.id)}>
               ▶️ Start
             </button>
-            <button className="btn btn-warning" onClick={() => onSetEndNode(selectedNode.id)}>
+            <button className="btn btn-filter" onClick={() => onSetEndNode(selectedNode.id)}>
               ⏹️ End
             </button>
-            <button className="btn btn-warning" onClick={() => onSetPassThroughNode(selectedNode.id)}>
+            <button className="btn btn-filter" onClick={() => onSetPassThroughNode(selectedNode.id)}>
               🔀 Pass-Through
             </button>
-            <button className="btn btn-info" onClick={() => onFilterConnected(selectedNode.id)}>
+            <button className="btn btn-filter" onClick={() => onFilterConnected(selectedNode.id)}>
               🔗 Filter Connected
             </button>
-            <button className="btn btn-success" onClick={() => onGrowIn(selectedNode.id)}>
+            <button className="btn btn-constructive" onClick={() => onGrowIn(selectedNode.id)}>
               ⬅️ Grow In
             </button>
-            <button className="btn btn-success" onClick={() => onGrowOut(selectedNode.id)}>
+            <button className="btn btn-constructive" onClick={() => onGrowOut(selectedNode.id)}>
              ➡️ Grow Out
             </button>
-            <button className="btn btn-danger" onClick={() => onRemoveNode(selectedNode.id)}>
+            <button className="btn btn-removal" onClick={() => onRemoveNode(selectedNode.id)}>
               🗑️ Remove Node
             </button>
           </div>
