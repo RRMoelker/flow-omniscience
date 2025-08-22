@@ -61,7 +61,7 @@ const complexGraphData: Graph = {
   ]
 };
 
-const complexExampleSource = (): OperationMeta => {
+const exampleSource2 = (): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Validate the graph data before returning it
     const validation = validateGraph(complexGraphData);
@@ -82,4 +82,4 @@ const complexExampleSource = (): OperationMeta => {
   };
 };
 
-export default complexExampleSource; 
+export default exampleSource2; 

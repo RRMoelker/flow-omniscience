@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import DiagramRenderer from './components/DiagramRenderer';
 import CameraController from './components/CameraController';
 import NodeInfoPanel from './components/NodeInfoPanel';
 import { 
-  InputWindow, 
   InputSection, 
   SourceOperations, 
   ConstructiveOperations, 
@@ -12,8 +11,9 @@ import {
 } from './components/input';
 
 import { OperationMeta, Node as GraphNode, GroupType } from './types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createAddGroupConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation, createFilterConnected, createGrowInTransformation, createGrowOutTransformation } from './data/operations/operationsManager';
+import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation, createFilterConnected, createGrowInTransformation, createGrowOutTransformation } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
+import groupAdd from './data/operations/add/groupAdd';
 
 function App() {
   // Helper to rehydrate operations from plain objects
@@ -24,7 +24,7 @@ function App() {
     if (op.id.startsWith('pass-through-filter-')) return createPassThroughFilter(op.id.replace('pass-through-filter-', ''));
     if (op.id.startsWith('group-collapse-')) return createGroupCollapseTransformation(op.id.replace('group-collapse-', ''));
     if (op.id === 'all-constructive') return createAllConstructive();
-    if (op.id.startsWith('add-group-constructive-')) return createAddGroupConstructive(op.id.replace('add-group-constructive-', ''));
+    if (op.id.startsWith('add-group-constructive-')) return groupAdd(op.id.replace('add-group-constructive-', ''));
     if (op.id === 'example-source') return createExampleSource1();
     if (op.id === 'complex-example-source') return createExampleSource2();
     if (op.id === 'external-source') return createExternalSource();
@@ -35,7 +35,7 @@ function App() {
     return null;
   }
 
-  const [graphData] = useState(createEmptyGraph());
+  const [emptyGraph] = useState(createEmptyGraph());
   // Load operations from sessionStorage if available
   const [operations, setOperations] = useState<OperationMeta[]>(() => {
     const stored = sessionStorage.getItem('operations');
@@ -61,7 +61,9 @@ function App() {
   }, [operations]);
 
   // Apply operations to get the processed graph
-  const processedGraph = applyOperations(graphData, operations);
+  const [baseGraph, processedGraph] = useMemo(() => {
+    return applyOperations(emptyGraph, operations);
+  }, [emptyGraph, operations]);
 
   const handleSetStartNode = (nodeId: string) => {
     const existingOperation = operations.find(op => op.id === `start-filter-${nodeId}`);
@@ -133,12 +135,20 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== `add-group-constructive-${groupId}`));
     } else {
       // Add new operation after sources but before transforms
-      const newOperation = createAddGroupConstructive(groupId);
+      const newOperation = groupAdd(groupId);
       setOperations(prev => {
         const sourceCount = prev.filter(op => op.priority === 0).length;
         return [...prev.slice(0, sourceCount), newOperation, ...prev.slice(sourceCount)];
       });
     }
+  };
+
+  const handleAddOperation = (operation: any) => {
+    // Add new operation after sources but before transforms
+    setOperations(prev => {
+      const sourceCount = prev.filter(op => op.priority === 0).length;
+      return [...prev.slice(0, sourceCount), operation, ...prev.slice(sourceCount)];
+    });
   };
 
   const handleAddExampleSource1 = () => {
@@ -244,8 +254,9 @@ function App() {
             <ConstructiveOperations 
               onAddAllConstructive={handleAddAllConstructive}
               onAddGroupConstructive={handleAddGroupConstructive}
-              nodes={processedGraph.nodes}
-              groups={processedGraph.groups}
+              onAddOperation={handleAddOperation}
+              nodes={baseGraph.nodes}
+              groups={baseGraph.groups}
             />
           </InputSection>
           <InputSection title="Display" className="display-section">

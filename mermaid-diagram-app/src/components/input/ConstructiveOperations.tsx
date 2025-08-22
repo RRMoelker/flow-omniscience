@@ -1,24 +1,36 @@
 import React from 'react';
 import Button from '../common/Button';
 import SearchInput, { SearchResult } from '../common/SearchInput';
+import groupAdd from '../../data/operations/add/groupAdd';
+import nodeAdd from '../../data/operations/add/nodeAdd';
 
-interface ConstructiveOperationsProps {
+interface AddOperationsProps {
   onAddAllConstructive: () => void;
   onAddGroupConstructive: (groupId: string) => void;
+  onAddOperation: (operation: any) => void; // Add this prop
   nodes: { id: string; name: string }[];
   groups: { id: string; type: string }[];
   maxResults?: number;
 }
 
-const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ 
+const AddOperations: React.FC<AddOperationsProps> = ({ 
   onAddAllConstructive, 
+  onAddGroupConstructive,
+  onAddOperation,
   nodes, 
   groups, 
   maxResults = 20 
 }) => {
   const handleResultClick = (result: SearchResult) => {
-    // TODO: Implement action when search result is clicked
-    console.log('Search result clicked:', result);
+    if (result.kind === 'n') {
+      // Add node operation
+      const operation = nodeAdd(result.id);
+      onAddOperation(operation);
+    } else if (result.kind === 'g') {
+      // Add group operation
+      const operation = groupAdd(result.id);
+      onAddOperation(operation);
+    }
   };
 
   return (
@@ -38,4 +50,4 @@ const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({
   );
 };
 
-export default ConstructiveOperations; 
+export default AddOperations; 

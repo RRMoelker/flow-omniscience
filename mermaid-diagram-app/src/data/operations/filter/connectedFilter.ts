@@ -2,7 +2,7 @@ import { Graph, OperationMeta } from '../../../types';
 import { findConnectedComponent } from '../../graph/graphUtils';
 
 // Filter Connected operation: keeps only the connected component of the node
-const filterConnected = (nodeId: string): OperationMeta => {
+const connectedFilter = (nodeId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Check if the node exists in the result graph
     const nodeExists = resultGraph.nodes.some(node => node.id === nodeId);
@@ -37,4 +37,4 @@ const filterConnected = (nodeId: string): OperationMeta => {
   };
 };
 
-export default filterConnected; 
+export default connectedFilter; 

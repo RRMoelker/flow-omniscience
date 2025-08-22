@@ -1,46 +1,35 @@
 import { Graph, OperationMeta } from '../../../types';
 
-// Add group constructive operation: adds all nodes for provided group
-const addGroupConstructive = (groupId: string): OperationMeta => {
+export default (groupId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
-    // Find all nodes in the specified group from the base graph
-    const nodesInGroup = baseGraph.nodes.filter(node => node.groups && node.groups.includes(groupId));
+    // Find the group in the base graph
+    const groupToAdd = baseGraph.groups.find(g => g.id === groupId);
     
-    if (nodesInGroup.length === 0) {
-      return [baseGraph, resultGraph, false]; // Return unchanged if no nodes in group
+    if (!groupToAdd) {
+      console.warn(`Group with ID "${groupId}" not found in base graph`);
+      return [baseGraph, resultGraph, false];
     }
     
-    // Get all edges that connect to/from nodes in this group
-    const nodeIdsInGroup = nodesInGroup.map(node => node.id);
-    const edgesInGroup = baseGraph.edges.filter(edge => 
-      nodeIdsInGroup.includes(edge.from) || nodeIdsInGroup.includes(edge.to)
-    );
+    // Check if group already exists in result graph
+    if (resultGraph.groups.some(g => g.id === groupId)) {
+      console.warn(`Group with ID "${groupId}" already exists in result graph`);
+      return [baseGraph, resultGraph, false];
+    }
     
-    // Combine with result graph (avoid duplicates)
-    const existingNodeIds = new Set(resultGraph.nodes.map(node => node.id));
-    const newNodes = nodesInGroup.filter(node => !existingNodeIds.has(node.id));
-    
-    const existingEdgeIds = new Set(resultGraph.edges.map(edge => `${edge.from}-${edge.to}`));
-    const newEdges = edgesInGroup.filter(edge => 
-      !existingEdgeIds.has(`${edge.from}-${edge.to}`)
-    );
-    
-    const newResultGraph = {
-      nodes: [...resultGraph.nodes, ...newNodes],
-      edges: [...resultGraph.edges, ...newEdges],
-      groups: resultGraph.groups || []
+    // Add the group to the result graph
+    const newResultGraph: Graph = {
+      ...resultGraph,
+      groups: [...resultGraph.groups, groupToAdd]
     };
     
-    return [baseGraph, newResultGraph, newNodes.length > 0 || newEdges.length > 0];
+    return [baseGraph, newResultGraph, true];
   };
 
   return {
-    id: `add-group-constructive-${groupId}`,
+    id: `add-group-${groupId}`,
     label: `Add Group: ${groupId}`,
-    priority: 100, // Constructive priority
+    priority: 1,
     type: 'add',
     operation
   };
-};
-
-export default addGroupConstructive; 
+}; 

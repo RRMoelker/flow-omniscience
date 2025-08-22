@@ -1,6 +1,6 @@
 import { Graph, OperationMeta } from '../../../types';
 
-const growInTransformation = (nodeId: string): OperationMeta => {
+const growInAdd = (nodeId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Find all edges incoming to nodeId
     const incomingEdges = baseGraph.edges.filter(edge => edge.to === nodeId);
@@ -35,4 +35,4 @@ const growInTransformation = (nodeId: string): OperationMeta => {
   };
 };
 
-export default growInTransformation; 
+export default growInAdd; 

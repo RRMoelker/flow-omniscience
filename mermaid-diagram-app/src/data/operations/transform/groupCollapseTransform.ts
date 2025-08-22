@@ -1,7 +1,7 @@
 import { Graph, Node, Edge, OperationMeta } from '../../../types';
 
 // Group collapse transformation operation: takes a groupId and returns an OperationMeta
-const groupCollapseTransformation = (groupId: string): OperationMeta => {
+const groupCollapseTransform = (groupId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     const nodesInGroup = resultGraph.nodes.filter(node => node.groups && node.groups.includes(groupId));
     if (nodesInGroup.length === 0) return [baseGraph, resultGraph, false];
@@ -84,4 +84,4 @@ const groupCollapseTransformation = (groupId: string): OperationMeta => {
   };
 };
 
-export default groupCollapseTransformation; 
+export default groupCollapseTransform; 

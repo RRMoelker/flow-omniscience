@@ -1,7 +1,7 @@
 import { Graph, OperationMeta } from '../../../types';
 
 // Remove node transformation operation: takes a nodeId and returns an OperationMeta
-const removeNodeTransformation = (nodeId: string): OperationMeta => {
+const nodeRemove = (nodeId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Check if the node exists in the result graph
     const nodeExists = resultGraph.nodes.some(node => node.id === nodeId);
@@ -29,4 +29,4 @@ const removeNodeTransformation = (nodeId: string): OperationMeta => {
   };
 };
 
-export default removeNodeTransformation; 
+export default nodeRemove; 

@@ -4,28 +4,26 @@ import { createEmptyGraph } from '../graph/emptyGraph';
 import startFilter from './filter/startFilter';
 import endFilter from './filter/endFilter';
 import passThroughFilter from './filter/passThroughFilter';
-import filterConnected from './filter/connectedFilter';
+import connectedFilter from './filter/connectedFilter';
 //
-import groupCollapseTransformation from './transform/groupCollapseTransform';
-import removeNodeTransformation from './remove/nodeRemove';
+import groupCollapseTransform from './transform/groupCollapseTransform';
+import nodeRemove from './remove/nodeRemove';
 //
-import growInTransformation from './add/growInAdd';
-import growOutTransformation from './add/growOutAdd';
-import allConstructive from './add/allNodesAdd';
-import addGroupConstructive from './add/groupAdd';
+import growInAdd from './add/growInAdd';
+import growOutAdd from './add/growOutAdd';
+import allNodesAdd from './add/allNodesAdd';
+import nodeAdd from './add/nodeAdd';
+import groupAdd from './add/groupAdd';
 //
 import exampleSource1 from './source/exampleSource1';
 import exampleSource2 from './source/exampleSource2';
 import externalSource from './source/externalSource';
 
 // Apply operations to a graph in priority order
-export const applyOperations = (originalGraph: Graph, operations: OperationMeta[]): Graph => {
-  if (operations.length === 0) {
-    return createEmptyGraph(); // Return empty graph when no operations
-  }
-  
+export const applyOperations = (originalGraph: Graph, operations: OperationMeta[]): [Graph, Graph] => {
+
   // Start with empty graphs
-  let baseGraph: Graph = createEmptyGraph();
+  let baseGraph: Graph = originalGraph;
   let resultGraph: Graph = createEmptyGraph();
   
   for (const operationMeta of operations) {
@@ -34,7 +32,7 @@ export const applyOperations = (originalGraph: Graph, operations: OperationMeta[
     resultGraph = newResultGraph;
   }
   
-  return resultGraph;
+  return [baseGraph, resultGraph];
 };
 
 // Create filter operations
@@ -51,25 +49,25 @@ export const createPassThroughFilter = (nodeId: string): OperationMeta => {
 };
 
 export const createFilterConnected = (nodeId: string): OperationMeta => {
-  const op = filterConnected(nodeId);
+  const op = connectedFilter(nodeId);
   return { ...op, type: 'filter' };
 };
 
 // Create transformation operations
 export const createGroupCollapseTransformation = (groupId: string): OperationMeta => {
-  return groupCollapseTransformation(groupId);
+  return groupCollapseTransform(groupId);
 };
 
 export const createRemoveNodeTransformation = (nodeId: string): OperationMeta => {
-  return removeNodeTransformation(nodeId);
+  return nodeRemove(nodeId);
 };
 
 export const createGrowInTransformation = (nodeId: string): OperationMeta => {
-  return growInTransformation(nodeId);
+  return growInAdd(nodeId);
 };
 
 export const createGrowOutTransformation = (nodeId: string): OperationMeta => {
-  return growOutTransformation(nodeId);
+  return growOutAdd(nodeId);
 };
 
 // Create source operations
@@ -87,9 +85,5 @@ export const createExternalSource = (): OperationMeta => {
 
 // Create constructive operations
 export const createAllConstructive = (): OperationMeta => {
-  return allConstructive();
+  return allNodesAdd();
 };
-
-export const createAddGroupConstructive = (groupId: string): OperationMeta => {
-  return addGroupConstructive(groupId);
-}; 
