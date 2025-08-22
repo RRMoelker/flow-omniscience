@@ -1,19 +1,19 @@
 import React from 'react';
 import Button from '../common/Button';
 import SearchInput, { SearchResult } from '../common/SearchInput';
-import groupAdd from '../../data/operations/add/groupAdd';
 import nodeAdd from '../../data/operations/add/nodeAdd';
+import groupAdd from '../../data/operations/add/groupAdd';
 
-interface AddOperationsProps {
+interface ConstructiveOperationsProps {
   onAddAllConstructive: () => void;
   onAddGroupConstructive: (groupId: string) => void;
-  onAddOperation: (operation: any) => void; // Add this prop
+  onAddOperation: (operation: any) => void;
   nodes: { id: string; name: string }[];
   groups: { id: string; type: string }[];
   maxResults?: number;
 }
 
-const AddOperations: React.FC<AddOperationsProps> = ({ 
+const ConstructiveOperations: React.FC<ConstructiveOperationsProps> = ({ 
   onAddAllConstructive, 
   onAddGroupConstructive,
   onAddOperation,
@@ -50,4 +50,4 @@ const AddOperations: React.FC<AddOperationsProps> = ({
   );
 };
 
-export default AddOperations; 
+export default ConstructiveOperations; 

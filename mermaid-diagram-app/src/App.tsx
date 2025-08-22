@@ -11,27 +11,39 @@ import {
 } from './components/input';
 
 import { OperationMeta, Node as GraphNode, GroupType } from './types';
-import { createStartFilter, createEndFilter, createPassThroughFilter, createGroupCollapseTransformation, createAllConstructive, createExampleSource1, createExampleSource2, createExternalSource, applyOperations, createRemoveNodeTransformation, createFilterConnected, createGrowInTransformation, createGrowOutTransformation } from './data/operations/operationsManager';
 import { createEmptyGraph } from './data/graph/emptyGraph';
+import startFilter from './data/operations/filter/startFilter';
+import endFilter from './data/operations/filter/endFilter';
+import passThroughFilter from './data/operations/filter/passThroughFilter';
+import groupCollapseTransform from './data/operations/transform/groupCollapseTransform';
+import allNodesAdd from './data/operations/add/allNodesAdd';
 import groupAdd from './data/operations/add/groupAdd';
+import exampleSource1 from './data/operations/source/exampleSource1';
+import exampleSource2 from './data/operations/source/exampleSource2';
+import externalSource from './data/operations/source/externalSource';
+import nodeRemove from './data/operations/remove/nodeRemove';
+import connectedFilter from './data/operations/filter/connectedFilter';
+import growInAdd from './data/operations/add/growInAdd';
+import growOutAdd from './data/operations/add/growOutAdd';
+import { applyOperations } from './data/operations/operationsManager';
 
 function App() {
   // Helper to rehydrate operations from plain objects
   function rehydrateOperation(op: any): OperationMeta | null {
     // Try to match by id prefix
-    if (op.id.startsWith('start-filter-')) return createStartFilter(op.id.replace('start-filter-', ''));
-    if (op.id.startsWith('end-filter-')) return createEndFilter(op.id.replace('end-filter-', ''));
-    if (op.id.startsWith('pass-through-filter-')) return createPassThroughFilter(op.id.replace('pass-through-filter-', ''));
-    if (op.id.startsWith('group-collapse-')) return createGroupCollapseTransformation(op.id.replace('group-collapse-', ''));
-    if (op.id === 'all-constructive') return createAllConstructive();
+    if (op.id.startsWith('start-filter-')) return startFilter(op.id.replace('start-filter-', ''));
+    if (op.id.startsWith('end-filter-')) return endFilter(op.id.replace('end-filter-', ''));
+    if (op.id.startsWith('pass-through-filter-')) return passThroughFilter(op.id.replace('pass-through-filter-', ''));
+    if (op.id.startsWith('group-collapse-')) return groupCollapseTransform(op.id.replace('group-collapse-', ''));
+    if (op.id === 'all-nodes') return allNodesAdd();
     if (op.id.startsWith('add-group-')) return groupAdd(op.id.replace('add-group-', ''));
-    if (op.id === 'example-source') return createExampleSource1();
-    if (op.id === 'complex-example-source') return createExampleSource2();
-    if (op.id === 'external-source') return createExternalSource();
-    if (op.id.startsWith('remove-node-')) return createRemoveNodeTransformation(op.id.replace('remove-node-', ''));
-    if (op.id.startsWith('filter-connected-')) return createFilterConnected(op.id.replace('filter-connected-', ''));
-    if (op.id.startsWith('grow-in-')) return createGrowInTransformation(op.id.replace('grow-in-', ''));
-    if (op.id.startsWith('grow-out-')) return createGrowOutTransformation(op.id.replace('grow-out-', ''));
+    if (op.id === 'example-source') return exampleSource1();
+    if (op.id === 'complex-example-source') return exampleSource2();
+    if (op.id === 'external-source') return externalSource();
+    if (op.id.startsWith('remove-node-')) return nodeRemove(op.id.replace('remove-node-', ''));
+    if (op.id.startsWith('filter-connected-')) return connectedFilter(op.id.replace('filter-connected-', ''));
+    if (op.id.startsWith('grow-in-')) return growInAdd(op.id.replace('grow-in-', ''));
+    if (op.id.startsWith('grow-out-')) return growOutAdd(op.id.replace('grow-out-', ''));
     return null;
   }
 
@@ -72,7 +84,7 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== `start-filter-${nodeId}`));
     } else {
       // Add new operation
-      const newOperation = createStartFilter(nodeId);
+      const newOperation = startFilter(nodeId);
       setOperations(prev => [...prev, newOperation]);
     }
   };
@@ -84,7 +96,7 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== `end-filter-${nodeId}`));
     } else {
       // Add new operation
-      const newOperation = createEndFilter(nodeId);
+      const newOperation = endFilter(nodeId);
       setOperations(prev => [...prev, newOperation]);
     }
   };
@@ -96,7 +108,7 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== `pass-through-filter-${nodeId}`));
     } else {
       // Add new operation
-      const newOperation = createPassThroughFilter(nodeId);
+      const newOperation = passThroughFilter(nodeId);
       setOperations(prev => [...prev, newOperation]);
     }
   };
@@ -108,7 +120,7 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== `group-collapse-${groupId}`));
     } else {
       // Add new operation
-      const newOperation = createGroupCollapseTransformation(groupId);
+      const newOperation = groupCollapseTransform(groupId);
       setOperations(prev => [...prev, newOperation]);
     }
   };
@@ -120,7 +132,7 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== 'all-constructive'));
     } else {
       // Add new operation after sources but before transforms
-      const newOperation = createAllConstructive();
+      const newOperation = allNodesAdd();
       setOperations(prev => {
         const sourceCount = prev.filter(op => op.priority === 0).length;
         return [...prev.slice(0, sourceCount), newOperation, ...prev.slice(sourceCount)];
@@ -156,7 +168,7 @@ function App() {
     if (existingOperation) {
       setOperations(prev => prev.filter(op => op.id !== 'example-source'));
     } else {
-      const newOperation = createExampleSource1();
+      const newOperation = exampleSource1();
       setOperations(prev => [newOperation, ...prev]);
     }
   };
@@ -167,7 +179,7 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== 'complex-example-source'));
     } else {
       const filtered = operations.filter(op => op.priority !== 0);
-      const newOperation = createExampleSource2();
+      const newOperation = exampleSource2();
       setOperations([newOperation, ...filtered]);
     }
   };
@@ -179,7 +191,7 @@ function App() {
       setOperations(prev => prev.filter(op => op.id !== 'external-source'));
     } else {
       // Add new operation at the beginning (priority 0)
-      const newOperation = createExternalSource();
+      const newOperation = externalSource();
       setOperations(prev => [newOperation, ...prev]);
     }
   };
@@ -189,7 +201,7 @@ function App() {
     if (existingOperation) {
       setOperations(prev => prev.filter(op => op.id !== `remove-node-${nodeId}`));
     } else {
-      const newOperation = createRemoveNodeTransformation(nodeId);
+      const newOperation = nodeRemove(nodeId);
       setOperations(prev => [...prev, newOperation]);
     }
   };
@@ -199,7 +211,7 @@ function App() {
     if (existingOperation) {
       setOperations(prev => prev.filter(op => op.id !== `filter-connected-${nodeId}`));
     } else {
-      const newOperation = createFilterConnected(nodeId);
+      const newOperation = connectedFilter(nodeId);
       setOperations(prev => [...prev, newOperation]);
     }
   };
@@ -209,7 +221,7 @@ function App() {
     if (existingOperation) {
       setOperations(prev => prev.filter(op => op.id !== `grow-in-${nodeId}`));
     } else {
-      const newOperation = createGrowInTransformation(nodeId);
+      const newOperation = growInAdd(nodeId);
       setOperations(prev => [...prev, newOperation]);
     }
   };
@@ -219,7 +231,7 @@ function App() {
     if (existingOperation) {
       setOperations(prev => prev.filter(op => op.id !== `grow-out-${nodeId}`));
     } else {
-      const newOperation = createGrowOutTransformation(nodeId);
+      const newOperation = growOutAdd(nodeId);
       setOperations(prev => [...prev, newOperation]);
     }
   };

@@ -3,13 +3,12 @@ import { Graph, OperationMeta } from '../../../types';
 // All constructive operation: returns the full original graph
 const allNodesAdd = (): OperationMeta => {
   const operation = (baseGraph: Graph): [Graph, Graph, boolean] => {
-    // Constructive operations use the base graph to build the result graph
     // Base graph stays the same, result graph gets the full base graph
     return [baseGraph, baseGraph, true];
   };
 
   return {
-    id: 'all-constructive',
+    id: 'all-nodes',
     label: 'All Nodes',
     priority: 100, // Constructive priority
     type: 'add',
