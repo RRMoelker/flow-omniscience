@@ -1,15 +1,19 @@
 import { Graph, OperationMeta } from '../../types';
 import { createEmptyGraph } from '../graph/emptyGraph';
+//
 import startFilter from './filters/startFilter';
 import endFilter from './filters/endFilter';
 import passThroughFilter from './filters/passThroughFilter';
 import filterConnected from './filters/filterConnected';
-import groupCollapseTransformation from './transforms/groupCollapseTransformation';
-import removeNodeTransformation from './transforms/removeNodeTransformation';
-import growInTransformation from './transforms/growInTransformation';
-import growOutTransformation from './transforms/growOutTransformation';
-import allConstructive from './constructs/allConstructive';
-import addGroupConstructive from './constructs/addGroupConstructive';
+//
+import groupCollapseTransformation from './transforms/groupCollapseTransform';
+import removeNodeTransformation from './removal/nodeRemoval';
+//
+import growInTransformation from './constructs/growInConstruct';
+import growOutTransformation from './constructs/growOutConstruct';
+import allConstructive from './constructs/allConstruct';
+import addGroupConstructive from './constructs/addGroupConstruct';
+//
 import exampleSource1 from './sources/exampleSource1';
 import exampleSource2 from './sources/exampleSource2';
 import externalSource from './sources/externalSource';
