@@ -1,4 +1,5 @@
 import { Graph, OperationMeta } from '../../../types';
+import { validateGraph } from '../../graph/validator';
 
 const complexGraphData: Graph = {
   groups: [
@@ -62,6 +63,13 @@ const complexGraphData: Graph = {
 
 const complexExampleSource = (): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
+    // Validate the graph data before returning it
+    const validation = validateGraph(complexGraphData);
+    if (!validation.isValid) {
+      console.warn('Graph validation failed:', validation.errors);
+      throw new Error('Graph validation failed');
+    }
+    
     return [complexGraphData, resultGraph, true];
   };
 

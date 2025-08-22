@@ -62,7 +62,7 @@ const DiagramRenderer = forwardRef<HTMLDivElement, DiagramRendererProps>(
 
           // Convert graph data to Mermaid syntax
           const mermaidCode = convertToMermaid(graphData, groupType);
-          console.log('Generated Mermaid code:', mermaidCode);
+          // console.log('Generated Mermaid code:', mermaidCode);
 
           // Create a unique ID for this diagram
           const diagramId = `mermaid-diagram-${Date.now()}`;

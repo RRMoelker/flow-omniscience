@@ -1,4 +1,5 @@
 import { Graph, OperationMeta } from '../../../types';
+import { validateGraph } from '../../graph/validator';
 
 // Data transformation pipeline with 20 nodes, multiple entry/exit points
 
@@ -135,6 +136,13 @@ const graphData: Graph = {
 // Example source operation: sets the example graph as the base graph
 const exampleSource = (): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
+    // Validate the graph data before returning it
+    const validation = validateGraph(graphData);
+    if (!validation.isValid) {
+      console.warn('Graph validation failed:', validation.errors);
+      throw new Error('Graph validation failed');
+    }
+    
     // Source operations only change the base graph, result graph stays the same
     return [graphData, resultGraph, true];
   };
