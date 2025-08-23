@@ -13,10 +13,13 @@ interface NodeInfoPanelProps {
   onFilterConnected: (nodeId: string) => void;
   onGrowIn: (nodeId: string) => void;
   onGrowOut: (nodeId: string) => void;
+  onAddGroup: (groupId: string) => void;
+  onFilterGroup: (groupId: string) => void;
+  onRemoveGroup: (groupId: string) => void;
   className?: string;
 }
 
-const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode, onRemoveNode, onFilterConnected, onGrowIn, onGrowOut, className }) => {
+const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartNode, onSetEndNode, onSetPassThroughNode, groups, onGroupCollapseNode, onRemoveNode, onFilterConnected, onGrowIn, onGrowOut, onAddGroup, onFilterGroup, onRemoveGroup, className }) => {
   if (!selectedNode) {
     return (
       <div className="node-info-panel">
@@ -56,6 +59,30 @@ const NodeInfoPanel: React.FC<NodeInfoPanelProps> = ({ selectedNode, onSetStartN
                         variant="transform"
                       >
                         🗂️ Collapse
+                      </Button>
+                      <Button
+                        className="group-btn"
+                        onClick={() => onAddGroup(groupId)}
+                        title={`Add group: ${group ? group.id : groupId}`}
+                        variant="add"
+                      >
+                        ➕ Add
+                      </Button>
+                      <Button
+                        className="group-btn"
+                        onClick={() => onFilterGroup(groupId)}
+                        title={`Filter group: ${group ? group.id : groupId}`}
+                        variant="filter"
+                      >
+                        🔍 Filter
+                      </Button>
+                      <Button
+                        className="group-btn"
+                        onClick={() => onRemoveGroup(groupId)}
+                        title={`Remove group: ${group ? group.id : groupId}`}
+                        variant="remove"
+                      >
+                        🗑️ Remove
                       </Button>
                     </li>
                   );

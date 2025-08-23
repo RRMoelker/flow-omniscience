@@ -14,7 +14,7 @@ const nodeRemove = (nodeId: string): OperationMeta => {
     const newResultGraph = {
       nodes: filteredNodes,
       edges: filteredEdges,
-      groups: resultGraph.groups || []
+      groups: resultGraph.groups
     };
 
     return [baseGraph, newResultGraph, true];

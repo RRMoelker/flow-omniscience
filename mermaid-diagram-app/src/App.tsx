@@ -25,6 +25,8 @@ import nodeRemove from './data/operations/remove/nodeRemove';
 import connectedFilter from './data/operations/filter/connectedFilter';
 import growInAdd from './data/operations/add/growInAdd';
 import growOutAdd from './data/operations/add/growOutAdd';
+import filterGroup from './data/operations/filter/filterGroup';
+import removeGroup from './data/operations/remove/removeGroup';
 import { applyOperations } from './data/operations/operationsManager';
 
 function App() {
@@ -236,6 +238,36 @@ function App() {
     }
   };
 
+  const handleAddGroup = (groupId: string) => {
+    const existingOperation = operations.find(op => op.id === `add-group-${groupId}`);
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== `add-group-${groupId}`));
+    } else {
+      const newOperation = groupAdd(groupId);
+      setOperations(prev => [...prev, newOperation]);
+    }
+  };
+
+  const handleFilterGroup = (groupId: string) => {
+    const existingOperation = operations.find(op => op.id === `filter-group-${groupId}`);
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== `filter-group-${groupId}`));
+    } else {
+      const newOperation = filterGroup(groupId);
+      setOperations(prev => [...prev, newOperation]);
+    }
+  };
+
+  const handleRemoveGroup = (groupId: string) => {
+    const existingOperation = operations.find(op => op.id === `remove-group-${groupId}`);
+    if (existingOperation) {
+      setOperations(prev => prev.filter(op => op.id !== `remove-group-${groupId}`));
+    } else {
+      const newOperation = removeGroup(groupId);
+      setOperations(prev => [...prev, newOperation]);
+    }
+  };
+
   const removeOperation = (operationId: string) => {
     setOperations(prev => prev.filter(operation => operation.id !== operationId));
   };
@@ -315,6 +347,9 @@ function App() {
             onFilterConnected={handleFilterConnected}
             onGrowIn={handleGrowIn}
             onGrowOut={handleGrowOut}
+            onAddGroup={handleAddGroup}
+            onFilterGroup={handleFilterGroup}
+            onRemoveGroup={handleRemoveGroup}
           />
         </div>
       </div>
