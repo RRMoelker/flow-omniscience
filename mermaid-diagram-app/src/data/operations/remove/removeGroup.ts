@@ -1,4 +1,5 @@
 import { Node,Edge, Graph, OperationMeta } from '../../../types';
+
 const removeGroup = (groupId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Find the group in the result graph
@@ -9,35 +10,58 @@ const removeGroup = (groupId: string): OperationMeta => {
       return [baseGraph, resultGraph, false];
     }
 
-    // Find all nodes that belong to this group
-    const nodesToRemove: Node[] = resultGraph.nodes.filter(node => 
-      node.groups && node.groups.includes(groupId)
+    // Calculate the resulting nodes (all nodes NOT in the group to remove)
+    const resultingNodes: Node[] = resultGraph.nodes.filter(node => 
+      !node.groups || !node.groups.includes(groupId)
     );
 
-    if (nodesToRemove.length === 0) {
-      console.warn(`No nodes found in group "${groupId}" to remove`);
+    if (resultingNodes.length === 0) {
+      console.warn(`No nodes would remain after removing group "${groupId}"`);
       return [baseGraph, resultGraph, false];
     }
 
-    // Find all edges that connect to/from nodes in this group
-    const edgesToRemove = resultGraph.edges.filter(edge => {
-      const sourceInGroup = nodesToRemove.some(node => node.id === edge.from);
-      const targetInGroup = nodesToRemove.some(node => node.id === edge.to);
-      return sourceInGroup || targetInGroup;
+    // Build sets for edges and groups by looping through all nodes
+    const edgeSet = new Set<string>();
+    const groupSet = new Set<string>();
+    
+    resultingNodes.forEach(node => {
+      // Add node's groups to the group set
+      if (node.groups) {
+        node.groups.forEach(groupId => {
+          if (groupId !== groupToRemove.id) { // Don't add the group being removed
+            groupSet.add(groupId);
+          }
+        });
+      }
+      
+      // Find edges where this node is source or target
+      resultGraph.edges.forEach(edge => {
+        if (edge.from === node.id || edge.to === node.id) {
+          // Check if both source and target are in resulting nodes
+          const sourceInResult = resultingNodes.some(n => n.id === edge.from);
+          const targetInResult = resultingNodes.some(n => n.id === edge.to);
+          if (sourceInResult && targetInResult) {
+            // Create unique edge identifier since Edge doesn't have an id
+            const edgeKey = `${edge.from}-${edge.to}`;
+            edgeSet.add(edgeKey);
+          }
+        }
+      });
     });
 
-    // Remove the group, nodes, and edges
+    // Convert sets back to arrays
+    const internalEdges: Edge[] = resultGraph.edges.filter(edge => {
+      const edgeKey = `${edge.from}-${edge.to}`;
+      return edgeSet.has(edgeKey);
+    });
+    const relevantGroups = resultGraph.groups.filter(group => groupSet.has(group.id));
+
+    // Create new result graph with the calculated content
     const newResultGraph: Graph = {
       ...resultGraph,
-      groups: resultGraph.groups.filter(g => g.id !== groupId),
-      nodes: resultGraph.nodes.filter(node => 
-        !node.groups || !node.groups.includes(groupId)
-      ),
-      edges: resultGraph.edges.filter(edge => {
-        const sourceInGroup = nodesToRemove.some(node => node.id === edge.from);
-        const targetInGroup = nodesToRemove.some(node => node.id === edge.to);
-        return !sourceInGroup && !targetInGroup;
-      })
+      groups: relevantGroups,
+      nodes: resultingNodes,
+      edges: internalEdges
     };
 
     return [baseGraph, newResultGraph, true];

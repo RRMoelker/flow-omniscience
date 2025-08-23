@@ -118,7 +118,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         setSelectedIndex(0);
         break;
     }
-  }, [showResults, results, selectedIndex]);
+  }, [showResults, results, selectedIndex, handleResultClick]);
 
   return (
     <div className={`search-input-wrapper ${className}`}>
