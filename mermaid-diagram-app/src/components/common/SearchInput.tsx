@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import TextInput from './TextInput';
 
 export interface SearchResult {
@@ -43,13 +43,14 @@ const SearchInput: React.FC<SearchInputProps> = ({
 }) => {
   const [query, setQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const results = useMemo<SearchResult[]>(() => {
     if (!query.trim()) return [];
     
     const nodeMatches: SearchResult[] = nodes.map(n => ({
       kind: 'n' as const,
-      id: n.id,
+      id: n.name || n.id,
       label: n.name || n.id,
       score: calcScore(query, n.name || n.id)
     })).filter(r => r.score > 0);
@@ -66,9 +67,15 @@ const SearchInput: React.FC<SearchInputProps> = ({
       .slice(0, maxResults);
   }, [query, nodes, groups, maxResults]);
 
+  // Reset selected index when results change
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [results]);
+
   const handleResultClick = (result: SearchResult) => {
     setShowResults(false);
     setQuery('');
+    setSelectedIndex(0);
     if (onResultClick) {
       onResultClick(result);
     }
@@ -86,6 +93,33 @@ const SearchInput: React.FC<SearchInputProps> = ({
     }
   };
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!showResults || results.length === 0) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev + 1) % results.length);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (selectedIndex >= 0 && selectedIndex < results.length) {
+          handleResultClick(results[selectedIndex]);
+        }
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setShowResults(false);
+        setQuery('');
+        setSelectedIndex(0);
+        break;
+    }
+  }, [showResults, results, selectedIndex]);
+
   return (
     <div className={`search-input-wrapper ${className}`}>
       <TextInput
@@ -96,14 +130,15 @@ const SearchInput: React.FC<SearchInputProps> = ({
         value={query}
         onChange={handleInputChange}
         onFocus={handleInputFocus}
+        onKeyDown={handleKeyDown}
       />
 
       {showResults && results.length > 0 && (
         <div className="search-results-panel">
-          {results.map(r => (
+          {results.map((r, index) => (
             <div 
               key={`${r.kind}:${r.id}`} 
-              className="search-result-row" 
+              className={`search-result-row ${index === selectedIndex ? 'selected' : ''}`}
               title={r.label}
               onClick={() => handleResultClick(r)}
             >

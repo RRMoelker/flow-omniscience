@@ -1,6 +1,6 @@
 import { Graph, OperationMeta } from '../../../types';
 
-export default (nodeId: string): OperationMeta => {
+const nodeAdd = (nodeId: string): OperationMeta => {
   const operation = (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
     // Find the node in the base graph
     const nodeToAdd = baseGraph.nodes.find(n => n.id === nodeId);
@@ -33,3 +33,5 @@ export default (nodeId: string): OperationMeta => {
     operation
   };
 }; 
+
+export default nodeAdd;

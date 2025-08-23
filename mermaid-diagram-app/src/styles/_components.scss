@@ -114,6 +114,15 @@
   background: #f7f7f9;
 }
 
+.search-result-row.selected {
+  background: theme.$color-primary;
+  color: #fff;
+}
+
+.search-result-row.selected .search-result-kind {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .search-result-kind {
   font-weight: 700;
   font-size: 12px;
