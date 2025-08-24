@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # External data files (user-specific)
-src/data/operations/sources/externalData.ts 
 public/data/external.json 
+public/data/custom.json 

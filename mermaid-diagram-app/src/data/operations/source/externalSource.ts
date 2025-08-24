@@ -11,7 +11,7 @@ const externalSource = (): OperationMeta => {
     operation: async (baseGraph: Graph, resultGraph: Graph): Promise<[Graph, Graph, boolean]> => {
       try {
         // Load external graph data from JSON file
-        const externalGraph = await loadGraphFromJsonFile('/data/external.json');
+        const externalGraph = await loadGraphFromJsonFile('/data/custom.json');
         
         // Validate the external graph data before returning it
         const validation = validateGraph(externalGraph);
