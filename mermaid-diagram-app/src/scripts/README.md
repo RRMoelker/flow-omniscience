@@ -33,7 +33,7 @@ npm run ingest ./my-custom-graph.json
 The script will:
 1. Create a basic example graph with:
    - 3 groups (example_group, data_group, process_group)
-   - 5 nodes (start, data1, process1, data2, end)
+   - 5 nodes (start, data1, process1, data2, end_node)
    - 4 edges connecting the nodes in a simple flow
 2. Convert the graph to formatted JSON
 3. Write the JSON to the specified file path
@@ -57,3 +57,45 @@ To modify the generated graph, edit the `createGraph()` function in `ingestExt.t
 - Change the graph structure
 - Modify node types and group assignments
 - Add custom properties to nodes or edges
+
+## testValidator.ts
+
+A script that tests the graph validator functionality, including the new reserved keywords check.
+
+### Usage
+
+```bash
+npm run test-validator
+```
+
+### What It Tests
+
+1. **Reserved Keywords Detection**: Tests that the validator catches Mermaid reserved keywords
+2. **Valid Graph Validation**: Tests that valid graphs pass validation
+3. **Specific Keywords**: Tests individual reserved keywords like 'end', 'start', 'graph'
+
+### Reserved Keywords
+
+The validator now checks for these Mermaid reserved keywords that cannot be used as node or group IDs:
+
+- **Graph Structure**: `end`, `start`, `subgraph`, `graph`, `flowchart`
+- **Graph Types**: `sequence`, `class`, `state`, `git`, `pie`, `journey`, `gantt`
+- **Styling**: `classDef`, `link`, `click`, `style`, `direction`
+- **Directions**: `TB`, `TD`, `BT`, `RL`, `LR`
+
+### Error Messages
+
+When reserved keywords are found, the validator provides:
+- Clear error message explaining the issue
+- List of all reserved keywords found
+- Affected node/group IDs with context
+- Suggestion to use alternative names
+
+### Example Error Output
+
+```
+Found 3 reserved keyword(s) used as ID(s): end, start, graph. 
+These are reserved by Mermaid and cannot be used as node or group IDs.
+
+Affected IDs: group:end, node:start, node:graph
+```

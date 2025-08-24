@@ -9,11 +9,7 @@ const exampleSource2 = (): OperationMeta => {
       const complexGraphData = await loadGraphFromJsonFile('/data/exampleSource2.json');
       
       // Validate the graph data before returning it
-      const validation = validateGraph(complexGraphData);
-      if (!validation.isValid) {
-        console.warn('Graph validation failed:', validation.errors);
-        throw new Error('Graph validation failed');
-      }
+      validateGraph(complexGraphData);
       
       return [complexGraphData, resultGraph, true];
     } catch (error) {

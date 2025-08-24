@@ -14,11 +14,7 @@ const externalSource = (): OperationMeta => {
         const externalGraph = await loadGraphFromJsonFile('/data/custom.json');
         
         // Validate the external graph data before returning it
-        const validation = validateGraph(externalGraph);
-        if (!validation.isValid) {
-          console.warn('External graph validation failed:', validation.errors);
-          throw new Error('External graph validation failed');
-        }
+        validateGraph(externalGraph);
 
         return [externalGraph, resultGraph, true];
       } catch (error) {

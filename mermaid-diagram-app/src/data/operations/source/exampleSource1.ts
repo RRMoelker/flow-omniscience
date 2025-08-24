@@ -10,11 +10,7 @@ const exampleSource = (): OperationMeta => {
       const graphData = await loadGraphFromJsonFile('/data/exampleSource1.json');
       
       // Validate the graph data before returning it
-      const validation = validateGraph(graphData);
-      if (!validation.isValid) {
-        console.warn('Graph validation failed:', validation.errors);
-        throw new Error('Graph validation failed');
-      }
+      validateGraph(graphData);
       
       // Source operations only change the base graph, result graph stays the same
       return [graphData, resultGraph, true];
