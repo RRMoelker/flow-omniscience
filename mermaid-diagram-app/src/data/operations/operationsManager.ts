@@ -17,15 +17,24 @@ import exampleSource2 from './source/exampleSource2';
 import externalSource from './source/externalSource';
 
 // Apply operations to a graph in priority order
-export const applyOperations = (originalGraph: Graph, operations: OperationMeta[]): [Graph, Graph] => {
+export const applyOperations = async (originalGraph: Graph, operations: OperationMeta[]): Promise<[Graph, Graph]> => {
   // Start with empty graphs
   let baseGraph: Graph = originalGraph;
   let resultGraph: Graph = createEmptyGraph();
   
   for (const operationMeta of operations) {
-    const [newBaseGraph, newResultGraph] = operationMeta.operation(baseGraph, resultGraph);
-    baseGraph = newBaseGraph;
-    resultGraph = newResultGraph;
+    const result = operationMeta.operation(baseGraph, resultGraph);
+    
+    // Handle both sync and async operations
+    if (result instanceof Promise) {
+      const [newBaseGraph, newResultGraph] = await result;
+      baseGraph = newBaseGraph;
+      resultGraph = newResultGraph;
+    } else {
+      const [newBaseGraph, newResultGraph] = result;
+      baseGraph = newBaseGraph;
+      resultGraph = newResultGraph;
+    }
   }
   
   return [baseGraph, resultGraph];

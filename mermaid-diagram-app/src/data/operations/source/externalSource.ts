@@ -1,5 +1,6 @@
 import { Graph, OperationMeta } from '../../../types';
 import { validateGraph } from '../../graph/validator';
+import { loadGraphFromJsonFile } from '../../io/jsonUtils';
 
 const externalSource = (): OperationMeta => {
   return {
@@ -7,11 +8,10 @@ const externalSource = (): OperationMeta => {
     label: 'External Source',
     type: 'source',
     priority: 0,
-    operation: (baseGraph: Graph, resultGraph: Graph): [Graph, Graph, boolean] => {
+    operation: async (baseGraph: Graph, resultGraph: Graph): Promise<[Graph, Graph, boolean]> => {
       try {
-        // Import the external data
-        const externalDataModule = require('./externalData');
-        const externalGraph = externalDataModule.default();
+        // Load external graph data from JSON file
+        const externalGraph = await loadGraphFromJsonFile('/data/external.json');
         
         // Validate the external graph data before returning it
         const validation = validateGraph(externalGraph);

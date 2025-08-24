@@ -10,7 +10,7 @@ import {
   DisplayPanel 
 } from './components/input';
 
-import { OperationMeta, Node as GraphNode, GroupType } from './types';
+import { OperationMeta, Node as GraphNode, GroupType, Graph } from './types';
 import { createEmptyGraph } from './data/graph/emptyGraph';
 import startFilter from './data/operations/filter/startFilter';
 import endFilter from './data/operations/filter/endFilter';
@@ -67,6 +67,8 @@ function App() {
   });
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [groupType, setGroupType] = useState<GroupType>('project');
+  const [processedGraph, setProcessedGraph] = useState<Graph>(createEmptyGraph());
+  const [baseGraph, setBaseGraph] = useState<Graph>(createEmptyGraph());
   const diagramRef = useRef<HTMLDivElement>(null);
 
   // Persist operations to sessionStorage on change
@@ -74,10 +76,27 @@ function App() {
     sessionStorage.setItem('operations', JSON.stringify(operations));
   }, [operations]);
 
-  // Apply operations to get the processed graph
-  const [baseGraph, processedGraph] = useMemo(() => {
-    return applyOperations(emptyGraph, operations);
-  }, [emptyGraph, operations]);
+  // Apply operations when they change
+  useEffect(() => {
+    const processOperations = async () => {
+      try {
+        const [processed, base] = await applyOperations(emptyGraph, operations);
+        setProcessedGraph(processed);
+        setBaseGraph(base);
+      } catch (error) {
+        console.error('Error applying operations:', error);
+        setProcessedGraph(createEmptyGraph());
+        setBaseGraph(createEmptyGraph());
+      }
+    };
+
+    if (operations.length > 0) {
+      processOperations();
+    } else {
+      setProcessedGraph(createEmptyGraph());
+      setBaseGraph(createEmptyGraph());
+    }
+  }, [operations, emptyGraph]);
 
   const handleSetStartNode = (nodeId: string) => {
     const existingOperation = operations.find(op => op.id === `start-filter-${nodeId}`);

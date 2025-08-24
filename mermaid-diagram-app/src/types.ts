@@ -34,7 +34,9 @@ export interface Graph {
 // =====================
 // Operation Types
 // =====================
-export type Operation = (baseGraph: Graph, resultGraph: Graph) => [Graph, Graph, boolean];
+export type Operation = 
+  | ((baseGraph: Graph, resultGraph: Graph) => [Graph, Graph, boolean])
+  | ((baseGraph: Graph, resultGraph: Graph) => Promise<[Graph, Graph, boolean]>);
 
 export type OperationType = 'source' | 'add' | 'transform' | 'filter' | 'remove';
 
